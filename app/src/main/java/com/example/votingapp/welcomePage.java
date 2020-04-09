@@ -31,7 +31,7 @@ static int a=7;
         // Delete
         String Pass=g.getStringExtra("PASS");
 
-        // check with electionDB
+        // check with electionDB abhishek
         Boolean alreadyVoted = true;
 
         //get string data from VOterDB
