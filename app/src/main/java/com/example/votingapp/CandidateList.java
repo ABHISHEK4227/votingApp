@@ -20,10 +20,6 @@ class CandidateNode{
     public Candidate getCand() {
         return cand;
     }
-
-    public void setCand(Candidate c) {
-        this.cand = cand;
-    }
 }
 
 public class CandidateList {
@@ -46,6 +42,9 @@ public class CandidateList {
     }
 
     public Candidate top() {
-        return this.top.getCand();
+        if(top !=  null) {
+            return this.top.getCand();
+        }
+        else return null;
     }
 }
