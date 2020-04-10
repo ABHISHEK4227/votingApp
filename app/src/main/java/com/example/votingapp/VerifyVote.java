@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class writeToChip extends AppCompatActivity {
+public class VerifyVote extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_to_chip);
+        setContentView(R.layout.activity_verify_vote);
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,14 +15,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public  void sendData(View v){
-        Intent i =new Intent(this,welcomePage.class);
-            String epic=((EditText)findViewById(R.id.epic)).getText().toString();
-            String pass=((EditText)findViewById(R.id.pass)).getText().toString();
-            i.putExtra("EPIC",epic);
-            i.putExtra("PASS",pass);
-            startActivity(i);
+        Intent i =new Intent(this,WelcomePage.class);
+
+        String epic=((EditText)findViewById(R.id.epic)).getText().toString();
+        String pass=((EditText)findViewById(R.id.pass)).getText().toString();
+
+        i.putExtra("EPIC",epic);
+        i.putExtra("PASS",pass);
+
+        startActivity(i);
 
     }
-
-
 }
