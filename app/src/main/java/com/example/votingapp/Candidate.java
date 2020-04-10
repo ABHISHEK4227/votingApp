@@ -1,11 +1,13 @@
 package com.example.votingapp;
 
-import android.graphics.Bitmap;
-
 public class Candidate {
     private String name;
     private int partyID;
-    private Bitmap partySymbol;
+
+    Candidate(String name, int partyID) {
+        this.name = name;
+        this.partyID = partyID;
+    }
 
     public String getName() {
         return name;
@@ -21,13 +23,5 @@ public class Candidate {
 
     public void setPartyID(int partyID) {
         this.partyID = partyID;
-    }
-
-    public Bitmap getPartySymbol() {
-        return partySymbol;
-    }
-
-    public void setPartySymbol(Bitmap partySymbol) {
-        this.partySymbol = partySymbol;
     }
 }

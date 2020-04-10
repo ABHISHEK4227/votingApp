@@ -10,12 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".verifyVote"></activity>
-        <activity android:name=".writeToChip" />
-        <activity android:name=".castVote" />
-        <activity android:name=".welcomePage" >
+        <activity android:name=".VerifyVote"></activity>
+        <activity android:name=".WriteToChip" />
+        <activity android:name=".CastVote" />
+        <activity android:name=".WelcomePage" >
         </activity>
-        <activity android:name=".voterDetails" />
+        <activity android:name=".VoterDetails" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

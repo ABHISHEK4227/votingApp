@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class connect extends AsyncTask<String,Void,String>
+public class Connect extends AsyncTask<String,Void,String>
 
 {
     private String IP="192.168.0.100";
