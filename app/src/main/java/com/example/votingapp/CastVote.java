@@ -31,14 +31,18 @@ public class CastVote extends AppCompatActivity {
         radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
 
 //        list = fetchCandidateList();
-        Candidate c0 = new Candidate(new String("Abhishek"), 3);
+        Candidate c0 = new Candidate(new String("Abhishek"), 0);
         Candidate c1 = new Candidate(new String("Ranajit"), 1);
-        Candidate c2 = new Candidate(new String("Arnab"), 2);
-        Candidate c3 = new Candidate(new String("Ankur"), 4);
+        Candidate c2 = new Candidate(new String("Swpanil"), 2);
+        Candidate c3 = new Candidate(new String("Ankur"), 3);
+        Candidate c4 = new Candidate(new String("Arnab"), 4);
+        Candidate c5 = new Candidate(new String("Arunava"), 5);
         list = new CandidateList(c0);
         list.push(c1);
         list.push(c2);
         list.push(c3);
+        list.push(c4);
+        list.push(c5);
         populate();
     }
 
