@@ -37,43 +37,47 @@
     <ScrollView
         android:id="@+id/scrollview_vote"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_marginTop="18dp"
-        android:maxHeight="400dp"
+        android:animateLayoutChanges="true"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView21"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.339">
 
         <RadioGroup
             android:id="@+id/radiogroup_vote"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp">
 
-            <LinearLayout
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/vote_loading"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="horizontal">-->
+
+            <TextView
                 android:id="@+id/vote_loading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center_horizontal"
+                android:text="Loading..."
+                android:textAlignment="center"
+                android:textSize="40sp" />
+            <!--                <RadioButton-->
+            <!--                    android:layout_width="350dp"-->
+            <!--                    android:layout_height="45dp"-->
+            <!--                    android:text="example" />-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Loading..."
-                    android:textAlignment="center"
-                    android:textSize="40sp" />
-                <!--                <RadioButton-->
-                <!--                    android:layout_width="350dp"-->
-                <!--                    android:layout_height="45dp"-->
-                <!--                    android:text="example" />-->
-
-                <!--                <ImageView-->
-                <!--                    android:layout_width="45dp"-->
-                <!--                    android:layout_height="45dp"-->
-                <!--                    app:srcCompat="@drawable/id0" />-->
-            </LinearLayout>
+            <!--                <ImageView-->
+            <!--                    android:layout_width="45dp"-->
+            <!--                    android:layout_height="45dp"-->
+            <!--                    app:srcCompat="@drawable/id0" />-->
+            <!--            </LinearLayout>-->
 
         </RadioGroup>
     </ScrollView>
