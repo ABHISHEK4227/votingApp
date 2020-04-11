@@ -1,48 +1,21 @@
 package com.example.votingapp;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-public class Connect extends AsyncTask<String,Void,String>
-
-{
-    private String IP="192.168.0.100";
-    private Socket s=null;
-    private ServerSocket server=null;
-
-    private DataOutputStream out=null;
-    @Override
-    protected String doInBackground(String... params) {
-
-        String mssg=params[0];
-        try{
-            s= new Socket(IP, 9000);
-
-            out=new DataOutputStream(s.getOutputStream());
+import java.util.zip.Inflater;
 
 
-        }catch (Exception e){
-
-        }
-
-        try{
-
-
-            out.writeUTF(mssg);
-            out.close();
-        }catch (Exception e){
-
-        }
-        return IP;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-
-    }
-}
