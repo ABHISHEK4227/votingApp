@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,17 +25,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Button login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendData(v);
+            }
+        });
     }
     public  void sendData(View v){
 
 
         epic=((EditText)findViewById(R.id.epic)).getText().toString();
         pass=((EditText)findViewById(R.id.pass)).getText().toString();
-        Connect ob=new Connect();
-        ob.execute(epic+" "+pass);
+//        Connect ob=new Connect();
+//        ob.execute(epic+" "+pass);
 
+        //DELETE LATER
+        Intent i =new Intent(MainActivity.this,WelcomePage.class);
+        i.putExtra("EPIC",epic);
+        i.putExtra("PASS",pass);
 
+        startActivity(i);
 
     }
 

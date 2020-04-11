@@ -2,24 +2,15 @@ package com.example.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -42,30 +33,29 @@ public class WelcomePage extends AppCompatActivity {
         String Pass=g.getStringExtra("PASS");
 
 
-        //get string data from VOterDB
-        String voterDetails=g.getStringExtra("DETAILS");
-
-        String details[]=voterDetails.split(" ");
-        updateUI(details[0],details[1]);
+        //get string data from VOterDB (UNCOMMENT LATER)
+//        String voterDetails=g.getStringExtra("DETAILS");
+//
+//        String details[]=voterDetails.split(" ");
+//        updateUI(details[0],details[1]);
 
 
         // check with electionDB abhishek
         Boolean alreadyVoted = true;
 
-
-
-
-
-
-
-
-
-
-        Button b = (Button) findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
+        Button castV = (Button) findViewById(R.id.buttonCastVote);
+        castV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCastVote(v);
+                goToVoterDetails(v);
+            }
+        });
+
+        Button verifyV = (Button) findViewById(R.id.buttonVerifyVote);
+        verifyV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToVerifyVote(v);
             }
         });
 
@@ -81,23 +71,21 @@ public class WelcomePage extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
 
     }
 
-
-
-    protected void goToCastVote(View v) {
+    protected void goToVoterDetails(View v) {
         Intent intent = new Intent(this, CastVote.class);
         startActivity(intent);
-
-
     }
 
 
-
+    protected void goToVerifyVote(View v) {
+        Intent intent = new Intent(this, VerifyVote.class);
+        startActivity(intent);
+    }
 
 }
