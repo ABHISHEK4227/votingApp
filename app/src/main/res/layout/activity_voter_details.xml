@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".VoterDetails">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/voterDetailsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Voter Details"
+            android:textSize="36sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/voterDetailsTable"
+            />
+        <TableLayout
+            android:id="@+id/voterDetailsTable"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voterDetailsTitle"
+            app:layout_constraintBottom_toTopOf="@id/voterDetailsConfirm">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                >
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Voters Name:"
+                    android:textStyle="bold"
+                    android:layout_weight="0.01"
+                    />
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Arnab basu"
+                    android:layout_weight="0.9"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                >
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Father's Name:"
+                    android:textStyle="bold"
+                    android:layout_weight="0.01"
+                    />
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Data was not given by the parent"
+                    android:layout_weight="0.9"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                >
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Date of Birth:"
+                    android:textStyle="bold"
+                    android:layout_weight="0.01"
+                    />
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Not needed (Accidental)"
+                    android:layout_weight="0.9"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                >
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Sex:"
+                    android:textStyle="bold"
+                    android:layout_weight="0.01"
+                    />
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Unknown"
+                    android:layout_weight="0.9"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Address:"
+                    android:textStyle="bold"
+                    android:layout_weight="0.01"
+                    />
+                <TextView
+                    android:textSize="15sp"
+                    android:text="Probably right outside your house (on the streets)"
+                    android:layout_weight="0.9"
+                    />
+            </TableRow>
+        </TableLayout>
+
+
+        <Button
+            android:id="@+id/voterDetailsConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Confirm"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voterDetailsTable"
+            app:layout_constraintBottom_toTopOf="@id/textContactECI" />
+
+        <TextView
+            android:id="@+id/textContactECI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="If there is any incorrect data :"
+            app:layout_constraintBottom_toTopOf="@id/buttonContactECI"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voterDetailsConfirm"
+            app:layout_constraintVertical_bias="1" />
+
+        <Button
+            android:id="@+id/buttonContactECI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="CONTACT ELECTION COMMISION"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textContactECI"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
