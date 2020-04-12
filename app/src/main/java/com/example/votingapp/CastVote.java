@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 public class CastVote extends AppCompatActivity {
     private Button confirmButton;
-    private ScrollView scrollV;
     private RadioGroup radioG;
     // fetch Candidate List from voteManager
     private CandidateList list;
@@ -29,14 +28,13 @@ public class CastVote extends AppCompatActivity {
         Intent g=getIntent();
         String Candidate_deails=g.getStringExtra("CANDIDATES");
         list = null;
-        confirmButton = (Button) findViewById(R.id.confirmVote);
-        scrollV = (ScrollView) findViewById(R.id.scrollview_vote);
+        confirmButton = (Button) findViewById(R.id.confirmVoteButton);
         radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
 
-//        list = fetchCandidateList();
+//      fetch Candidates from
         Candidate c0 = new Candidate(new String("Abhishek"), 0);
         Candidate c1 = new Candidate(new String("Ranajit"), 1);
-        Candidate c2 = new Candidate(new String("Swpanil"), 2);
+        Candidate c2 = new Candidate(new String("Swapnil"), 2);
         Candidate c3 = new Candidate(new String("Ankur"), 3);
         Candidate c4 = new Candidate(new String("Arnab"), 4);
         Candidate c5 = new Candidate(new String("Arunava"), 5);
@@ -46,6 +44,8 @@ public class CastVote extends AppCompatActivity {
         list.push(c3);
         list.push(c4);
         list.push(c5);
+
+
         populate();
     }
 
@@ -62,10 +62,11 @@ public class CastVote extends AppCompatActivity {
                     (int)(100 * scale + 0.5f)
             ));
             rd.setText(list.top().getName());
+            rd.setTextSize(10 * scale + 0.5f);
+
             int resId = getResources().getIdentifier("id"+list.top().getPartyID(),"drawable", getPackageName());
             Drawable d = getResources().getDrawable(resId);
             rd.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
-
 
             radioG.addView(rd);
             list.pop();
