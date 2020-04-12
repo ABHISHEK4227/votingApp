@@ -3,6 +3,7 @@ package com.example.votingapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ public class CastVote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast_vote);
+        Intent g=getIntent();
+        String Candidate_deails=g.getStringExtra("CANDIDATES");
         list = null;
         confirmButton = (Button) findViewById(R.id.confirmVote);
         scrollV = (ScrollView) findViewById(R.id.scrollview_vote);

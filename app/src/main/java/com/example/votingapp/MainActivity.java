@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
                 out=new DataOutputStream(s.getOutputStream());
                 out.flush();
-                out.writeUTF(mssg);
+                out.writeUTF("1 "+mssg);
                 out.flush();
 
                 s.close();

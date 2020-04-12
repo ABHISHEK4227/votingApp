@@ -29,6 +29,10 @@ public class WelcomePage extends AppCompatActivity {
     private DataOutputStream out=null;
     private int port= 9000;
     private String IP="192.168.0.100";
+    private Boolean alreadyVoted;
+    private String Epic="";
+    private String Pass="";
+    private String Cid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,21 +40,29 @@ public class WelcomePage extends AppCompatActivity {
         Intent g= getIntent();
 
         //Create  a voter class and intialise the constructor with epic
-        String Epic=g.getStringExtra("EPIC");
+        Epic=g.getStringExtra("EPIC");
 
         // Delete
-        String Pass=g.getStringExtra("PASS");
+        Pass=g.getStringExtra("PASS");
 
 
         //get string data from VOterDB
         String voterDetails=g.getStringExtra("DETAILS");
 
-        String details[]=voterDetails.split(" ");
+
+        //EPIC NAME FATHER NAME  DOB  ADDR  SEX  CID  PASS
+        String details[]=voterDetails.split("\\$");
+
+
+        Cid=details[6];
+
         updateUI(details[0],details[1]);
 
 
         // check with electionDB abhishek
-        Boolean alreadyVoted = true;
+        alreadyVoted = true;
+        Connect2 ob =new Connect2();
+        ob.execute(Epic+" "+Pass);
 
 
 
@@ -65,7 +77,7 @@ public class WelcomePage extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCastVote(v);
+                goToVoterDetails(v);
             }
         });
 
@@ -90,11 +102,81 @@ public class WelcomePage extends AppCompatActivity {
 
 
 
-    protected void goToCastVote(View v) {
-        Intent intent = new Intent(this, CastVote.class);
+    protected void goToVoterDetails(View v) {
+        Intent intent = new Intent(this, VoterDetails.class);
+        intent.putExtra("CID",Cid);
+        intent.putExtra("PASS",Pass);
         startActivity(intent);
 
 
+    }
+
+
+    public class Connect2 extends AsyncTask<String,String,String>
+
+    {
+        private String IP="192.168.0.105";
+        private int port=9000;
+        private Socket s=null;
+        private ServerSocket server=null;
+
+        private DataOutputStream out=null;
+        @Override
+        protected String doInBackground(String... params) {
+
+            String mssg=params[0];
+            try{
+                s= new Socket(IP, port);
+
+                out=new DataOutputStream(s.getOutputStream());
+                out.flush();
+                out.writeUTF(2+" "+mssg);
+                out.flush();
+
+                s.close();
+
+
+
+                s=new Socket(IP,port);
+                InputStream in=s.getInputStream();
+
+                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+                String l=reader.readLine();
+
+
+
+
+
+                publishProgress(l);
+
+
+            }catch (Exception e){
+
+            }
+
+
+            return IP;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            String str=values[0];
+            str=str.trim();
+
+            String details[]=str.split(" ");
+
+            if(Integer.parseInt(details[2])==0)
+
+                alreadyVoted=false;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(alreadyVoted==false)
+            Toast.makeText(WelcomePage.this,"Not voted",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
 
