@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -18,37 +16,46 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MainActivity extends AppCompatActivity {
-    private String epic="";
-    private String pass="";
+public class VoterDetails extends AppCompatActivity {
+
+    private String Cid="";
+    private String Pass="";
+    private String str="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_voter_details);
+        Intent g= getIntent();
+
+        //Create  a voter class and intialise the constructor with epic
+        Cid=g.getStringExtra("CID");
+
+        // Delete
+        Pass=g.getStringExtra("PASS");
+        Connect3 ob=new Connect3();
+        ob.execute(Cid+" "+Pass);
+
+        Button b = (Button) findViewById(R.id.confirm);
+        b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendData(v);
+                goToCasteVote(v);
             }
         });
+
     }
-    public  void sendData(View v){
-
-
-        epic=((EditText)findViewById(R.id.epic)).getText().toString();
-        pass=((EditText)findViewById(R.id.pass)).getText().toString();
-        Connect ob=new Connect();
-        ob.execute(epic+" "+pass);
-
+    public void goToCasteVote(View v){
+        Intent i=new Intent(this,CastVote.class);
+        i.putExtra("CANDIDATES",str);
+        startActivity(i);
     }
 
 
-
-    public class Connect extends AsyncTask<String,String,String>
+    public class Connect3 extends AsyncTask<String,String,String>
 
     {
         private String IP="192.168.0.105";
+        private int port=9000;
         private Socket s=null;
         private ServerSocket server=null;
 
@@ -58,18 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
             String mssg=params[0];
             try{
-                s= new Socket(IP, 9000);
+                s= new Socket(IP, port);
 
                 out=new DataOutputStream(s.getOutputStream());
                 out.flush();
-                out.writeUTF("1 "+mssg);
+                out.writeUTF(3+" "+mssg);
                 out.flush();
 
                 s.close();
 
 
 
-                s=new Socket(IP,9000);
+                s=new Socket(IP,port);
                 InputStream in=s.getInputStream();
 
                 BufferedReader reader=new BufferedReader(new InputStreamReader(in));
@@ -93,23 +100,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            String str=values[0];
+            str=values[0];
             str=str.trim();
 
-
-
-            if(str.equals("INVALID")){
-                Toast.makeText(MainActivity.this,"Invalid Login Details",Toast.LENGTH_LONG).show();
-            }else {
-                str=str.substring(1);
-                Intent i =new Intent(MainActivity.this,WelcomePage.class);
-                i.putExtra("EPIC",epic);
-                i.putExtra("PASS",pass);
-                i.putExtra("DETAILS",str);
-
-                startActivity(i);
-
-            }
 
 
 
@@ -118,9 +111,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
 
+
         }
     }
-
-
 
 }
