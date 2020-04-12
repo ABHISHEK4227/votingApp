@@ -38,15 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         epic=((EditText)findViewById(R.id.epic)).getText().toString();
         pass=((EditText)findViewById(R.id.pass)).getText().toString();
-//        Connect ob=new Connect();
-//        ob.execute(epic+" "+pass);
-
-        //DELETE LATER
-        Intent i =new Intent(MainActivity.this,WelcomePage.class);
-        i.putExtra("EPIC",epic);
-        i.putExtra("PASS",pass);
-
-        startActivity(i);
+        Connect ob=new Connect();
+        ob.execute(epic+" "+pass);
 
     }
 

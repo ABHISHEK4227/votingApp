@@ -33,11 +33,11 @@ public class WelcomePage extends AppCompatActivity {
         String Pass=g.getStringExtra("PASS");
 
 
-        //get string data from VOterDB (UNCOMMENT LATER)
-//        String voterDetails=g.getStringExtra("DETAILS");
-//
-//        String details[]=voterDetails.split(" ");
-//        updateUI(details[0],details[1]);
+        //get string data from VOterDB
+        String voterDetails=g.getStringExtra("DETAILS");
+
+        String details[]=voterDetails.split(" ");
+        updateUI(details[0],details[1]);
 
 
         // check with electionDB abhishek
