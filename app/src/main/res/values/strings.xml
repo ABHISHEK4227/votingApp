@@ -6,7 +6,13 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <string name="welcome">WELCOME</string>
+    <string name="epic_no">EPIC NO:</string>
+    <string name="cast_vote">CAST VOTE</string>
+    <string name="verify_vote">VERIFY VOTE</string>
+    <string name="loading">Loading…</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="votedFor">You have voted for:</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
