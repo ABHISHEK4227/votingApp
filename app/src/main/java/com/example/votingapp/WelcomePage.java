@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import android.os.Handler;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -38,7 +39,6 @@ public class WelcomePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadActivity();
     }
 
 
@@ -88,7 +88,29 @@ public class WelcomePage extends AppCompatActivity {
         ElectionDB ob =new ElectionDB();
         ob.execute(voter.getEpic_no()+" "+Pass);
     }
+    boolean doubleBackToExitPressedOnce = false;
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+//            Intent i = new Intent(this,MainActivity.class);
+//            i.putExtra("exit", "1");
+//            startActivity(i);
+            finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
     //Update the UI with the login
     public void updateUI(String epic,String voterName ){
         TextView epicno=(TextView)findViewById(R.id.epicno);
@@ -102,19 +124,21 @@ public class WelcomePage extends AppCompatActivity {
         Intent intent = new Intent(this, VerifyVote.class);
         intent.putExtra("Voter", voter);
         startActivity(intent);
+        finish();
     }
 
     protected void goToVoterDetails(View v) {
         Intent intent = new Intent(this, VoterDetails.class);
         intent.putExtra("Voter",voter);
         startActivity(intent);
+        finish();
     }
 
 
     public class ElectionDB extends AsyncTask<String,String,String>
     {
-        private String IP="192.168.0.110";
-        private int port=9000;
+        private String IP=Connect.IP;
+        private int port=Connect.port;
         private Socket s=null;
         private DataOutputStream out=null;
         @Override

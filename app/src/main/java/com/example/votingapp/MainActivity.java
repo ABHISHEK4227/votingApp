@@ -23,17 +23,35 @@ import java.net.Socket;
 public class MainActivity extends AppCompatActivity {
     private String epic="";
     private String pass="";
+    int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        flag = 0;
         loadActivity();
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        flag = 1;
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadActivity();
+        System.out.println("reached");
+        if(flag == 1){
+//            Intent i = getIntent();
+//            String flagEx = (String) i.getStringExtra("exit");
+//            if(flagEx.equals("1")) {
+//                System.out.println("Rreached");
+//                this.finish();
+//                System.exit(0);
+//            }
+            finish();
+        }
     }
 
     void loadActivity(){
@@ -66,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             String mssg = params[0];
             try {
-                s = new Socket(IP, 9000);
+                s = new Socket(Connect.IP, Connect.port);
 
                 out = new DataOutputStream(s.getOutputStream());
                 out.flush();
@@ -75,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 s.close();
 
-                s = new Socket(IP, 9000);
+                s = new Socket(Connect.IP, Connect.port);
                 InputStream in = s.getInputStream();
 
 //                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
@@ -104,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (str.equals("INVALID")) {
                 Toast.makeText(MainActivity.this, "Invalid Login Details", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else {
+                flag = 1;
                 Intent i = new Intent(MainActivity.this, WelcomePage.class);
                 i.putExtra("EPIC", epic);
                 i.putExtra("PASS", pass);

@@ -17,4 +17,10 @@
     <string name="votedFor">You have voted for:</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="facial_recognition">Facial Recognition</string>
+    <string name="please_put_your_face_in_front_of_camera">Please Put Your Face in front of Camera</string>
+    <string name="submit">Submit</string>
+    <string name="capture">Capture</string>
+    <string name="todo">TODO</string>
+    <string name="confirm_vote">Confirm Vote</string>
 </resources>
