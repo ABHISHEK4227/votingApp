@@ -1,14 +1,31 @@
 package com.example.votingapp;
 
-public class Voter {
+import java.io.Serializable;
+
+public class Voter implements Serializable {
     private String name;
     private String father;
     private String epic_no;
     private String dob;
-    private int cid;
+    private String address;
+    private String cid;
     private String sex;
-    private Boolean authenticated;
+    private String password;
+    private Boolean alreadyVoted;
     private Candidate selectedCand;
+
+    public Voter(String epic_no, String name, String father, String dob, String address, String sex, String cid, String password) {
+        this.name = name;
+        this.father = father;
+        this.epic_no = epic_no;
+        this.dob = dob;
+        this.cid = cid;
+        this.sex = sex;
+        this.address = address;
+        this.password = password;
+        this.alreadyVoted= true;
+        this.selectedCand = null;
+    }
 
     public Candidate getSelectedCand() {
         return selectedCand;
@@ -34,7 +51,7 @@ public class Voter {
         return dob;
     }
 
-    public int getCid() {
+    public String getCid() {
         return cid;
     }
 
@@ -42,8 +59,12 @@ public class Voter {
         return sex;
     }
 
-    public Boolean getAuthenticated() {
-        return authenticated;
+    public Boolean getAlreadyVoted() {
+        return alreadyVoted;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setName(String name) {
@@ -62,7 +83,7 @@ public class Voter {
         this.dob = dob;
     }
 
-    public void setCid(int cid) {
+    public void setCid(String cid) {
         this.cid = cid;
     }
 
@@ -70,7 +91,15 @@ public class Voter {
         this.sex = sex;
     }
 
-    public void setAuthenticated(Boolean authenticated) {
-        this.authenticated = authenticated;
+    public void setAlreadyVoted(Boolean alreadyVoted) {
+        this.alreadyVoted = alreadyVoted;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

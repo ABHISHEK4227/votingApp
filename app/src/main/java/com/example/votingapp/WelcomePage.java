@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,50 +25,27 @@ import java.util.Scanner;
 
 public class WelcomePage extends AppCompatActivity {
 
-    private Socket s=null;
-    private ServerSocket server=null;
+    private Voter voter=null;
+    Button verifyV = null;
+    Button castV = null;
 
-    private DataOutputStream out=null;
-    private int port= 9000;
-    private String IP="192.168.0.110";
-    private Boolean alreadyVoted;
-    private String Epic="";
-    private String Pass="";
-    private String Cid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadActivity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadActivity();
+    }
+
+
+    void loadActivity(){
         setContentView(R.layout.activity_welcome_page);
-        Intent g= getIntent();
 
-        //Create  a voter class and intialise the constructor with epic
-        Epic=g.getStringExtra("EPIC");
-
-        // Delete
-        Pass=g.getStringExtra("PASS");
-
-
-        //get string data from VOterDB
-        String voterDetails=g.getStringExtra("DETAILS");
-
-
-        //EPIC NAME FATHER NAME  DOB  ADDR  SEX  CID  PASS
-        String details[]=voterDetails.split("\\$");
-
-
-        Cid=details[6];
-
-        updateUI(details[0],details[1]);
-
-
-        // check with electionDB abhishek
-        alreadyVoted = true;
-        Connect2 ob =new Connect2();
-        ob.execute(Epic+" "+Pass);
-
-
-
-        Button castV = (Button) findViewById(R.id.buttonCastVote);
+        castV = (Button) findViewById(R.id.buttonCastVote);
         castV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,13 +53,40 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
-        Button verifyV = (Button) findViewById(R.id.buttonVerifyVote);
+        verifyV = (Button) findViewById(R.id.buttonVerifyVote);
         verifyV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToVerifyVote(v);
             }
         });
+
+        castV.setVisibility(View.INVISIBLE);
+        verifyV.setVisibility(View.INVISIBLE);
+
+        Intent g= getIntent();
+
+        //Create  a voter class and intialise the constructor with epic
+        String Epic=g.getStringExtra("EPIC");
+
+        // Delete
+        String Pass=g.getStringExtra("PASS");
+
+        //get string data from VoterDB
+        String voterDetails=g.getStringExtra("DETAILS");
+
+        //EPIC NAME FATHER NAME  DOB  ADDR  SEX  CID  PASS
+        String details[]=voterDetails.split("\\$");
+
+        voter = new Voter(details[0], details[1], details[2], details[3], details[4], details[5], details[6], Pass);
+
+        updateUI(voter.getEpic_no(), voter.getName());
+
+//        Log.i("download1", voter.getEpic_no());
+
+        // check with electionDB abhishek
+        ElectionDB ob =new ElectionDB();
+        ob.execute(voter.getEpic_no()+" "+Pass);
     }
 
     //Update the UI with the login
@@ -90,38 +96,26 @@ public class WelcomePage extends AppCompatActivity {
 
         epicno.setText(epic);
         name.setText(voterName);
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     protected void goToVerifyVote(View v) {
         Intent intent = new Intent(this, VerifyVote.class);
-        intent.putExtra("Epic",Epic);
+        intent.putExtra("Voter", voter);
         startActivity(intent);
     }
 
     protected void goToVoterDetails(View v) {
         Intent intent = new Intent(this, VoterDetails.class);
-        intent.putExtra("CID",Cid);
-        intent.putExtra("PASS",Pass);
+        intent.putExtra("Voter",voter);
         startActivity(intent);
     }
 
 
-    public class Connect2 extends AsyncTask<String,String,String>
-
+    public class ElectionDB extends AsyncTask<String,String,String>
     {
         private String IP="192.168.0.110";
         private int port=9000;
         private Socket s=null;
-        private ServerSocket server=null;
-
         private DataOutputStream out=null;
         @Override
         protected String doInBackground(String... params) {
@@ -137,51 +131,42 @@ public class WelcomePage extends AppCompatActivity {
 
                 s.close();
 
-
-
-                s=new Socket(IP,port);
+                s = new Socket(IP, port);
                 InputStream in=s.getInputStream();
 
-                BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                String l=reader.readLine();
+                DataInputStream d_in = new DataInputStream(in);
+                String l = d_in.readUTF();
 
-
-
-
-
-                publishProgress(l);
-
-
-            }catch (Exception e){
+                in.close();
+                s.close();
+                return l;
+            }catch (Exception e) {
 
             }
-
-
-            return IP;
+            return "INVALID";
         }
 
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            String str=values[0];
-            str=str.trim();
-
-            String details[]=str.split(" ");
-
-            if(Integer.parseInt(details[2])==0)
-
-                alreadyVoted=false;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            if(alreadyVoted==false)
-            Toast.makeText(WelcomePage.this,"Not voted",Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(String str) {
+            str=str.trim();
 
+            String details[]=str.split(" ");
+            if(Integer.parseInt(details[2])==0) {
+                voter.setAlreadyVoted(false);
+            }
+            if(!voter.getAlreadyVoted()) {
+                Toast.makeText(WelcomePage.this, "Not voted", Toast.LENGTH_SHORT).show();
+                castV.setVisibility(View.VISIBLE);
+            }
+            else{
+                Toast.makeText(WelcomePage.this, "Already voted", Toast.LENGTH_SHORT).show();
+                verifyV.setVisibility(View.VISIBLE);
+            }
         }
     }
-
-
-
-
 }

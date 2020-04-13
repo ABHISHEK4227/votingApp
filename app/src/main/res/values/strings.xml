@@ -6,6 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="login">LOGIN</string>
+    <string name="password">Password</string>
     <string name="welcome">WELCOME</string>
     <string name="epic_no">EPIC NO:</string>
     <string name="cast_vote">CAST VOTE</string>

@@ -26,7 +26,7 @@ public class CastVote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast_vote);
         Intent g=getIntent();
-        String Candidate_deails=g.getStringExtra("CANDIDATES");
+        String Candidate_deails = g.getStringExtra("CANDIDATES");
         list = null;
         confirmButton = (Button) findViewById(R.id.confirmVoteButton);
         radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
@@ -44,7 +44,6 @@ public class CastVote extends AppCompatActivity {
         list.push(c3);
         list.push(c4);
         list.push(c5);
-
 
         populate();
     }
@@ -71,7 +70,6 @@ public class CastVote extends AppCompatActivity {
             radioG.addView(rd);
             list.pop();
         }
-//        radioG.addView();
     }
 
 }
