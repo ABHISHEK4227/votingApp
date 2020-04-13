@@ -1,2 +1,4 @@
+COPY THIS TO A DIFFERENT FOLDER...
+
 install xampp
 and import the databases from databases.zip
