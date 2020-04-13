@@ -28,7 +28,7 @@ public class WelcomePage extends AppCompatActivity {
 
     private DataOutputStream out=null;
     private int port= 9000;
-    private String IP="192.168.0.100";
+    private String IP="192.168.0.110";
     private Boolean alreadyVoted;
     private String Epic="";
     private String Pass="";
@@ -66,21 +66,21 @@ public class WelcomePage extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-        Button b = (Button) findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
+        Button castV = (Button) findViewById(R.id.buttonCastVote);
+        castV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToVoterDetails(v);
             }
         });
 
+        Button verifyV = (Button) findViewById(R.id.buttonVerifyVote);
+        verifyV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToVerifyVote(v);
+            }
+        });
     }
 
     //Update the UI with the login
@@ -100,22 +100,24 @@ public class WelcomePage extends AppCompatActivity {
 
     }
 
-
+    protected void goToVerifyVote(View v) {
+        Intent intent = new Intent(this, VerifyVote.class);
+        intent.putExtra("Epic",Epic);
+        startActivity(intent);
+    }
 
     protected void goToVoterDetails(View v) {
         Intent intent = new Intent(this, VoterDetails.class);
         intent.putExtra("CID",Cid);
         intent.putExtra("PASS",Pass);
         startActivity(intent);
-
-
     }
 
 
     public class Connect2 extends AsyncTask<String,String,String>
 
     {
-        private String IP="192.168.0.105";
+        private String IP="192.168.0.110";
         private int port=9000;
         private Socket s=null;
         private ServerSocket server=null;

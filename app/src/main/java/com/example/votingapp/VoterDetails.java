@@ -17,7 +17,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class VoterDetails extends AppCompatActivity {
-
     private String Cid="";
     private String Pass="";
     private String str="";
@@ -35,16 +34,16 @@ public class VoterDetails extends AppCompatActivity {
         Connect3 ob=new Connect3();
         ob.execute(Cid+" "+Pass);
 
-        Button b = (Button) findViewById(R.id.confirm);
+        Button b = (Button) findViewById(R.id.voterDetailsConfirm);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCasteVote(v);
+                goToCastVote(v);
             }
         });
 
     }
-    public void goToCasteVote(View v){
+    public void goToCastVote(View v){
         Intent i=new Intent(this,CastVote.class);
         i.putExtra("CANDIDATES",str);
         startActivity(i);
@@ -54,7 +53,7 @@ public class VoterDetails extends AppCompatActivity {
     public class Connect3 extends AsyncTask<String,String,String>
 
     {
-        private String IP="192.168.0.105";
+        private String IP="192.168.0.110";
         private int port=9000;
         private Socket s=null;
         private ServerSocket server=null;
