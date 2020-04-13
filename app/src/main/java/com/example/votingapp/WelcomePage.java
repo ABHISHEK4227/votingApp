@@ -28,7 +28,7 @@ public class WelcomePage extends AppCompatActivity {
 
     private DataOutputStream out=null;
     private int port= 9000;
-    private String IP="192.168.0.100";
+    private String IP="192.168.0.110";
     private Boolean alreadyVoted;
     private String Epic="";
     private String Pass="";
@@ -74,10 +74,11 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
-        castV.setOnClickListener(new View.OnClickListener() {
+        Button verifyV = (Button) findViewById(R.id.buttonVerifyVote);
+        verifyV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                goToVerifyVote(v);
             }
         });
     }

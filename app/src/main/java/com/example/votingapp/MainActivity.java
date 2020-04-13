@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public class Connect extends AsyncTask<String,String,String>
 
     {
-        private String IP="192.168.0.105";
+        private String IP="192.168.0.110";
         private Socket s=null;
         private ServerSocket server=null;
 
