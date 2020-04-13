@@ -13,30 +13,29 @@ class Server{
     private String sendString="";
     public static  void main(String args[]){
         try {
-                // Runtime.getRuntime().addShutdownHook(new Thread() {
-                //         public void run() {
-                //             try {
-                //                 Thread.sleep(200);
-                //                 System.out.println("Shutting down ...");
-                //                 //some cleaning up code...
-                                
-                //             } catch (InterruptedException e) {
-                //                 Thread.currentThread().interrupt();
-                //                 e.printStackTrace();
-                //             }
-                //         }
-                // });
-                Class.forName("com.mysql.jdbc.Driver");    
-                Server ob = new Server();
-                ob.listen();
+            // Runtime.getRuntime().addShutdownHook(new Thread() {
+            //         public void run() {
+            //             try {
+            //                 Thread.sleep(200);
+            //                 System.out.println("Shutting down ...");
+            //                 //some cleaning up code...
+                            
+            //             } catch (InterruptedException e) {
+            //                 Thread.currentThread().interrupt();
+            //                 e.printStackTrace();
+            //             }
+            //         }
+            // });
+            Class.forName("com.mysql.jdbc.Driver");    
+            Server ob = new Server();
+            ob.listen();
         }catch(Exception e){
-                System.out.println(e);
+            System.out.println(e);
         }
     }
 
     public void listen()
     {
-
         while(true) {
             try {
                 
@@ -57,94 +56,91 @@ class Server{
                 in.close();
                 s.close();
                 ResultSet rs=null;
-               
 
-        switch(type){
+                switch(type){
 
-        case 1:
+                case 1://at login
 
-                con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/voterdb", "root", "");
-                
-                stmt=con.createStatement();
-                System.out.println(EPIC);
-                rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
+                    con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/voterdb", "root", "");
+                    
+                    stmt=con.createStatement();
+                    System.out.println(EPIC);
+                    rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
 
-                int countRows=0;
-                while(rs.next())
-                {
+                    int countRows=0;
+                    while(rs.next())
+                    {
                         for(int i=1;i<8;i++)
-                                sendString+=rs.getString(i)+"$";
+                        {
+                            sendString+=rs.getString(i)+"$";
+                        }
 
                         originalPass=rs.getString(8);
                         sendString+=originalPass;
                                         
                         countRows++;
-                }
+                    }
 
-                System.out.println(countRows);
-                if(countRows!=1){
-                    //Invalid Login
+                    System.out.println(countRows);
+                    if(countRows!=1){
+                        //Invalid Login
                         sendString="INVALID";
-                }else {
+                    }else {
                         if(!originalPass.equals(pass))			
-                                sendString="INVALID";
-                        
-                }
-                rs.close();
-                stmt.close();
-                con.close();
+                            sendString="INVALID";
+                            
+                    }
+                    rs.close();
+                    stmt.close();
+                    con.close();
+                    break;
 
+                case 2: // fetching already voted or not from ElectionDB
+                    con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    
+                    stmt=con.createStatement();
 
-                break;
-
-        case 2:
-
-                
-                con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/electiondb", "root", "");
-                
-                stmt=con.createStatement();
-                
-                
-                rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
-                
-                while(rs.next())
-                {
+                    rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
+                    
+                    while(rs.next())
+                    {
                         for(int i=1;i<4;i++)
-                                sendString+=rs.getString(i)+" ";
-                }
+                            sendString+=rs.getString(i)+" ";
+                    }
+                    rs.close();
+                    stmt.close();
+                    con.close();
+                    break;
 
-                break;
+                case 3: //get the candidates
 
-        case 3:
-
-                con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/electiondb", "root", "");
-                stmt=con.createStatement();
-                String CID=EPIC;
-                rs=stmt.executeQuery("select * from candidate where CID = '"+CID+"'");
-                
-                while(rs.next())
-                {
-                        sendString+=rs.getString(1)+" "+rs.getString(2)+" ";
-                }
-
-                break;
+                    con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    stmt=con.createStatement();
+                    String CID=EPIC;
+                    rs=stmt.executeQuery("select * from candidate where CID = '"+CID+"'");
+                    
+                    while(rs.next())
+                    {
+                        sendString+=rs.getString(1)+"$"+rs.getString(2)+"$";
+                    }
+                    rs.close();
+                    stmt.close();
+                    con.close();
+                    break;
 
                 } //switch
+
                 s = server.accept();
 
                 DataOutputStream out = new DataOutputStream(new BufferedOutputStream(s.getOutputStream()));
-                out.flush();
                 System.out.println(sendString);
                 out.writeUTF(sendString);
-
-
-                server.close();
                 out.flush();
 
-               
+                server.close();
                 s.close();
 
             } catch (Exception e) {
