@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +31,6 @@ public class VoterDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadActivity();
     }
 
     void loadActivity(){
@@ -53,29 +53,56 @@ public class VoterDetails extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCastVote(v);
+                goToFacialRecognition(v);
             }
         });
 
     }
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+//            Intent i = new Intent(this,MainActivity.class);
+//            i.putExtra("exit", "1");
+//            startActivity(i);
+            finish();
+            return;
+        }
 
-//    @Override
-//    public void onBackPressed() {
-//        Toast.makeText(VoterDetails.this, "Not Allowed", Toast.LENGTH_LONG).show();
-//    }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-    public void goToCastVote(View v){
-        Intent i=new Intent(this,CastVote.class);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+  //  public void goToCastVote(View v){
+  //      Intent i=new Intent(this,CastVote.class);
+   //     i.putExtra("CANDIDATES",candidatesStr);
+  //      i.putExtra("Voter", voter);
+  //      startActivity(i);
+  //  }
+
+
+    public void goToFacialRecognition(View v){
+        Intent i=new Intent(this,FacialRecognition.class);
         i.putExtra("CANDIDATES",candidatesStr);
         i.putExtra("Voter", voter);
         startActivity(i);
+        finish();
     }
+
 
     public class ElectionDB extends AsyncTask<String,String,String>
 
     {
-        private String IP="192.168.0.110";
-        private int port=9000;
+        private String IP=Connect.IP;
+        private int port=Connect.port;
         private Socket s=null;
         private ServerSocket server=null;
 

@@ -14,8 +14,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CastVote extends AppCompatActivity {
+    private Voter voter;
     private Button confirmButton;
     private RadioGroup radioG;
     // fetch Candidate List from voteManager
@@ -26,33 +28,43 @@ public class CastVote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast_vote);
         Intent g=getIntent();
-        String Candidate_deails = g.getStringExtra("CANDIDATES");
+        String candidateDetails = g.getStringExtra("CANDIDATES");
+        voter = (Voter) g.getSerializableExtra("Voter");
         list = null;
         confirmButton = (Button) findViewById(R.id.confirmVoteButton);
         radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
 
 //      fetch Candidates from
-        Candidate c0 = new Candidate(new String("Abhishek"), 0);
-        Candidate c1 = new Candidate(new String("Ranajit"), 1);
-        Candidate c2 = new Candidate(new String("Swapnil"), 2);
-        Candidate c3 = new Candidate(new String("Ankur"), 3);
-        Candidate c4 = new Candidate(new String("Arnab"), 4);
-        Candidate c5 = new Candidate(new String("Arunava"), 5);
-        list = new CandidateList(c0);
-        list.push(c1);
-        list.push(c2);
-        list.push(c3);
-        list.push(c4);
-        list.push(c5);
+//        Candidate c0 = new Candidate(new String("Abhishek"), 0);
+//        Candidate c1 = new Candidate(new String("Ranajit"), 1);
+//        Candidate c2 = new Candidate(new String("Swapnil"), 2);
+//        Candidate c3 = new Candidate(new String("Ankur"), 3);
+//        Candidate c4 = new Candidate(new String("Arnab"), 4);
+//        Candidate c5 = new Candidate(new String("Arunava"), 5);
+//        list = new CandidateList(c0);
+//        list.push(c1);
+//        list.push(c2);
+//        list.push(c3);
+//        list.push(c4);
+//        list.push(c5);
 
-        populate();
+        populate(candidateDetails);
+//        populate();
     }
 
-    public void populate() {
+    public void populate(String candDetails) {
         TextView loading = (TextView) findViewById(R.id.vote_loading);
         radioG.removeView(loading);
 
         final float scale = getResources().getDisplayMetrics().density;
+        String candStringArray[] = candDetails.split("\\$");
+
+        int arrLen = candStringArray.length;
+        list = new CandidateList(new Candidate(candStringArray[0], Integer.parseInt(candStringArray[1])));
+        for(int i=2;i<arrLen;i+=2)
+        {
+            list.push(new Candidate(candStringArray[i], Integer.parseInt(candStringArray[i+1])));
+        }
 
         while( list.top() != null ) {
             RadioButton rd = new RadioButton(this);
@@ -72,4 +84,8 @@ public class CastVote extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(CastVote.this, "Not Allowed", Toast.LENGTH_LONG).show();
+    }
 }
