@@ -1,7 +1,8 @@
 import java.net.*;
 import java.io.*;
 import java.sql.*;
-class server{
+
+class Server{
     private Socket s=null;
     private ServerSocket server=null;
     private DataInputStream in=null;
@@ -12,14 +13,24 @@ class server{
     private String sendString="";
     public static  void main(String args[]){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/voterdb", "root", "");
-		
-            server ob = new server();
-            ob.listen();
+                // Runtime.getRuntime().addShutdownHook(new Thread() {
+                //         public void run() {
+                //             try {
+                //                 Thread.sleep(200);
+                //                 System.out.println("Shutting down ...");
+                //                 //some cleaning up code...
+                                
+                //             } catch (InterruptedException e) {
+                //                 Thread.currentThread().interrupt();
+                //                 e.printStackTrace();
+                //             }
+                //         }
+                // });
+                Class.forName("com.mysql.jdbc.Driver");    
+                Server ob = new Server();
+                ob.listen();
         }catch(Exception e){
-            System.out.println(e);
+                System.out.println(e);
         }
     }
 
@@ -28,130 +39,108 @@ class server{
 
         while(true) {
             try {
-		sendString="";
+                
+                sendString="";
 
                 server = new ServerSocket(port);
                 s = server.accept();
                 in=new DataInputStream(new BufferedInputStream(s.getInputStream()));
                 String str = "";
+                
                 str=in.readUTF();
                 System.out.println(str);
                 String clientQuery[]=str.split(" ");
-		String queryType=clientQuery[0];
+                String queryType=clientQuery[0];
                 String EPIC =clientQuery[1];
                 String pass=clientQuery[2];
-		int type=Integer.parseInt(queryType);
- 		in.close();
+                int type=Integer.parseInt(queryType);
+                in.close();
                 s.close();
-		ResultSet rs=null;
+                ResultSet rs=null;
+               
 
-	switch(type){
+        switch(type){
 
-	case 1:
+        case 1:
 
-		con=con = DriverManager.getConnection(
+                con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/voterdb", "root", "");
-		
-		stmt=con.createStatement();
                 
-		
-                rs=stmt.executeQuery("select * from voter where EPIC = "+EPIC);
-                
-		
-		int countRows=0;
-		while(rs.next())
-		{
-		for(int i=1;i<8;i++)
-		sendString+=rs.getString(i)+"$";
+                stmt=con.createStatement();
+                System.out.println(EPIC);
+                rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
 
-		originalPass=rs.getString(8);
-		sendString+=originalPass;
-		                
-		countRows++;
-		}
+                int countRows=0;
+                while(rs.next())
+                {
+                        for(int i=1;i<8;i++)
+                                sendString+=rs.getString(i)+"$";
 
-		System.out.println(countRows);
+                        originalPass=rs.getString(8);
+                        sendString+=originalPass;
+                                        
+                        countRows++;
+                }
+
+                System.out.println(countRows);
                 if(countRows!=1){
                     //Invalid Login
-		     sendString="INVALID";
+                        sendString="INVALID";
                 }else {
-			  if(!originalPass.equals(pass))			
-				sendString="INVALID";
-			
+                        if(!originalPass.equals(pass))			
+                                sendString="INVALID";
+                        
                 }
-		rs.close();
-		stmt.close();
-               	con.close();
+                rs.close();
+                stmt.close();
+                con.close();
 
 
-		break;
+                break;
 
-	case 2:
+        case 2:
 
-		
-		con=con = DriverManager.getConnection(
+                
+                con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/electiondb", "root", "");
-		
-		stmt=con.createStatement();
                 
-		
-                rs=stmt.executeQuery("select * from voter where epic = "+EPIC);
+                stmt=con.createStatement();
                 
-		while(rs.next())
-		{
-		for(int i=1;i<4;i++)
-		sendString+=rs.getString(i)+" ";		
-		
-		                
-		
-		}
+                
+                rs=stmt.executeQuery("select * from voter where epic = '"+EPIC+"'");
+                
+                while(rs.next())
+                {
+                        for(int i=1;i<4;i++)
+                                sendString+=rs.getString(i)+" ";
+                }
 
-		break;
+                break;
 
-	case 3:
+        case 3:
 
-		
-		con=con = DriverManager.getConnection(
+                con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/electiondb", "root", "");
-		
-		stmt=con.createStatement();
+                stmt=con.createStatement();
+                String CID=EPIC;
+                rs=stmt.executeQuery("select * from candidate where CID = '"+CID+"'");
                 
-		String CID=EPIC;
+                while(rs.next())
+                {
+                        sendString+=rs.getString(1)+" "+rs.getString(2)+" ";
+                }
 
-                rs=stmt.executeQuery("select * from candidate where CID = "+CID);
-                
-		while(rs.next())
-		{
-		
-		sendString+=rs.getString(1)+" "+rs.getString(2)+" ";		
-		
-		                
-		
-		}
+                break;
 
-
-		break;
-
-
-		} //switch
-
-
-
-
+                } //switch
                 s = server.accept();
 
                 DataOutputStream out = new DataOutputStream(new BufferedOutputStream(s.getOutputStream()));
-		out.flush();
-		System.out.println(sendString);
+                out.flush();
+                System.out.println(sendString);
                 out.writeUTF(sendString);
 
 
-
-
-
-
-
-		
                 server.close();
                 out.flush();
 
@@ -164,6 +153,4 @@ class server{
 
         }
     }
-
-
 }
