@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        EditText pass = (EditText) findViewById(R.id.pass);
+        pass.setText("");
     }
 
     void loadActivity(){
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public  void sendData(View v){
         epic=((EditText)findViewById(R.id.epic)).getText().toString();
         pass=((EditText)findViewById(R.id.pass)).getText().toString();
-        VoterDB ob=new VoterDB();
+        MainActivity.VoterDB ob=new MainActivity.VoterDB();
         ob.execute(epic+" "+pass);
     }
 

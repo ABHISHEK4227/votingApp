@@ -46,7 +46,7 @@ public class VoterDetails extends AppCompatActivity {
         ((TextView)findViewById(R.id.vd_sex)).setText(voter.getSex());
         ((TextView)findViewById(R.id.vd_address)).setText(voter.getAddress());
 
-        ElectionDB ob = new ElectionDB();
+        VoterDetails.ElectionDB ob = new VoterDetails.ElectionDB();
         ob.execute(voter.getCid()+" "+voter.getPassword());
 
         Button b = (Button) findViewById(R.id.voterDetailsConfirm);

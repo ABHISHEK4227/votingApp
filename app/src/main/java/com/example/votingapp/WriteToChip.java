@@ -2,6 +2,7 @@ package com.example.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
@@ -11,11 +12,13 @@ import java.io.FileOutputStream;
 import java.io.*;
 
 public class WriteToChip extends AppCompatActivity {
+    private Voter voter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_to_chip);
-
+        Intent g = getIntent();
+        voter = (Voter) g.getSerializableExtra("Voter");
         // Populate this string with the vote you want to save
         String vote="Arnab";
         try {
@@ -32,6 +35,10 @@ public class WriteToChip extends AppCompatActivity {
         {
             Toast.makeText(this,e+"",Toast.LENGTH_LONG).show();
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(WriteToChip.this, "Not Allowed", Toast.LENGTH_LONG).show();
     }
 }

@@ -1,4 +1,10 @@
-COPY THIS TO A DIFFERENT FOLDER...
+IMPORTANT...
+1. COPY THIS TO A DIFFERENT FOLDER.
+2. COPY THE PATH OF THE FILE BY (SHIFT+RIGHT_CLICK) ON THE JAR FILE (THEN "COPY AS PATH").
+3. THEN CREATE A NEW ENVIRONMENTAL VARIABLE WITH NAME "classpath" AND THE VALUE AS-
 
-install xampp
-and import the databases from databases.zip
+	<copied path without quotations>;.;
+
+4. install xampp (port 80 and 3306 should be free).
+6. start XAMPP with administrative permission.
+5. import the databases from databases.zip.
