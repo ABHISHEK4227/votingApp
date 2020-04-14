@@ -42,7 +42,7 @@ public class VerifyVote extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click BACK again to logout", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -52,4 +52,6 @@ public class VerifyVote extends AppCompatActivity {
             }
         }, 2000);
     }
+
+
 }
