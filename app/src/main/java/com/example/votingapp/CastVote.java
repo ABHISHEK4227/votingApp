@@ -47,7 +47,6 @@ public class CastVote extends AppCompatActivity {
 //        list.push(c3);
 //        list.push(c4);
 //        list.push(c5);
-
         populate(candidateDetails);
 //        populate();
     }
@@ -60,6 +59,7 @@ public class CastVote extends AppCompatActivity {
         String candStringArray[] = candDetails.split("\\$");
 
         int arrLen = candStringArray.length;
+        System.out.println(arrLen);
         list = new CandidateList(new Candidate(candStringArray[0], Integer.parseInt(candStringArray[1])));
         for(int i=2;i<arrLen;i+=2)
         {

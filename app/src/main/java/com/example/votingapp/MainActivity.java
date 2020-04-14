@@ -41,17 +41,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("reached");
-        if(flag == 1){
-//            Intent i = getIntent();
-//            String flagEx = (String) i.getStringExtra("exit");
-//            if(flagEx.equals("1")) {
-//                System.out.println("Rreached");
-//                this.finish();
-//                System.exit(0);
-//            }
-            finish();
-        }
     }
 
     void loadActivity(){
@@ -124,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Invalid Login Details", Toast.LENGTH_LONG).show();
             }
             else {
-                flag = 1;
                 Intent i = new Intent(MainActivity.this, WelcomePage.class);
                 i.putExtra("EPIC", epic);
                 i.putExtra("PASS", pass);
