@@ -33,7 +33,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
-            android:text="Example Rx"/>
+            />
 
         <LinearLayout
             android:id="@+id/epicLinear"
@@ -60,7 +60,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="E2XAM5PLE"
                 />
         </LinearLayout>
 

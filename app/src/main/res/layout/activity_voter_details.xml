@@ -47,6 +47,7 @@
                     android:layout_weight="0.01"
                     />
                 <TextView
+                    android:id="@+id/vd_name"
                     android:textSize="15sp"
                     android:text="Arnab basu"
                     android:layout_weight="0.9"
@@ -65,6 +66,7 @@
                     android:layout_weight="0.01"
                     />
                 <TextView
+                    android:id="@+id/vd_father_name"
                     android:textSize="15sp"
                     android:text="Data was not given by the parent"
                     android:layout_weight="0.9"
@@ -83,6 +85,7 @@
                     android:layout_weight="0.01"
                     />
                 <TextView
+                    android:id="@+id/vd_dob"
                     android:textSize="15sp"
                     android:text="Not needed (Accidental)"
                     android:layout_weight="0.9"
@@ -101,6 +104,7 @@
                     android:layout_weight="0.01"
                     />
                 <TextView
+                    android:id="@+id/vd_sex"
                     android:textSize="15sp"
                     android:text="Unknown"
                     android:layout_weight="0.9"
@@ -118,6 +122,7 @@
                     android:layout_weight="0.01"
                     />
                 <TextView
+                    android:id="@+id/vd_address"
                     android:textSize="15sp"
                     android:text="Probably right outside your house (on the streets)"
                     android:layout_weight="0.9"
