@@ -126,8 +126,8 @@ public class UploadToServer extends AppCompatActivity {
             updatedUIOnSuccess();
         }
     }
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
+//    }
 }
