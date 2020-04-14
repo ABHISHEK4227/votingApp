@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class VerifyVote extends AppCompatActivity {
     private Voter voter = null;
-    Button logout;
+    private LinearLayout linearLayout = null;
+    private TextView vv_voteFor = null;
+    private ImageView imageView = null;
+    private Button logout = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

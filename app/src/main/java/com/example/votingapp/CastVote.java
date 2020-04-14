@@ -122,13 +122,13 @@ public class CastVote extends AppCompatActivity {
     }
 
     public void openDiag(){
-        cdtDialog diag = new cdtDialog();
+        CdtDialog diag = new CdtDialog();
         diag.show(getSupportFragmentManager(),"Timer");
-
     }
 
     public void goToWriteToChip(){
         Intent i=new Intent(getApplicationContext(),WriteToChip.class);
+        i.putExtra("Voter", voter);
         startActivity(i);
         finish();
     }
