@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
@@ -24,6 +25,7 @@ public class VerifyVote extends AppCompatActivity {
     private TextView candName = null;
     private ImageView imageView = null;
     private Button logout = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +89,8 @@ public class VerifyVote extends AppCompatActivity {
                 s.close();
                 return l;
             }catch (Exception e) {
-
+                return  "INVALID";
             }
-            return "INVALID";
         }
 
         @Override
@@ -109,6 +110,10 @@ public class VerifyVote extends AppCompatActivity {
                 Drawable d = getResources().getDrawable(resId);
                 imageView.setImageDrawable(d);
                 imageView.setVisibility(View.VISIBLE);
+            }
+            else{
+                Toast.makeText(VerifyVote.this, "INVALID", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
