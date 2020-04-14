@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,10 +20,13 @@ import android.widget.Toast;
 
 public class CastVote extends AppCompatActivity {
     private Voter voter;
-    private Button confirmButton;
+    Button confirmButton;
     private RadioGroup radioG;
+    private TextView timeT;
+    boolean timeUp = false;
     // fetch Candidate List from voteManager
     private CandidateList list;
+    private CountDownTimer cdTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,38 @@ public class CastVote extends AppCompatActivity {
 //        list.push(c5);
         populate(candidateDetails);
 //        populate();
+
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(timeUp){
+                    finish();
+                }
+                else{
+                    cdTimer.cancel();
+                    goToWriteToChip();
+                }
+            }
+        });
+
+
+        timeT = (TextView) findViewById(R.id.timeText);
+        cdTimer = new CountDownTimer(10000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeT.setText("Time left : " + millisUntilFinished/1000 + " sec");
+            }
+
+            @Override
+            public void onFinish() {
+                openDiag();
+                confirmButton.setText("Logout");
+                timeUp = true;
+            }
+        };
+        cdTimer.start();
+
     }
 
     public void populate(String candDetails) {
@@ -82,6 +119,18 @@ public class CastVote extends AppCompatActivity {
             radioG.addView(rd);
             list.pop();
         }
+    }
+
+    public void openDiag(){
+        cdtDialog diag = new cdtDialog();
+        diag.show(getSupportFragmentManager(),"Timer");
+
+    }
+
+    public void goToWriteToChip(){
+        Intent i=new Intent(getApplicationContext(),WriteToChip.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
