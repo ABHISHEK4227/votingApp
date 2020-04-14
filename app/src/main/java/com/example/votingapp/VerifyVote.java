@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class VerifyVote extends AppCompatActivity {
     private Voter voter = null;
+    Button logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +22,13 @@ public class VerifyVote extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        logout = (Button) findViewById(R.id.buttonUnknown);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     void loadActivity(){

@@ -34,36 +34,39 @@ public class FacialRecognition extends AppCompatActivity {
         candidatesStr = (String) g.getStringExtra("CANDIDATES");
         voter = (Voter) g.getSerializableExtra("Voter");
 
-        Button b = (Button) findViewById(R.id.faceRecSubmitButton);
+        final Button b = (Button) findViewById(R.id.faceRecSubmitButton);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sendImageToServer()) {
-                    goToCastVote(v);
+                if(countFc >= 3){
+                    finish();
                 }
-                else{
-                    countFc++;
-                    if(countFc >= 3){
-                        Intent i = new Intent( FacialRecognition.this, MainActivity.class);
-                        //i.putExtra("CANDIDATES",str);
-                        startActivity(i);
+                else {
+                    if (sendImageToServer()) {
+                        goToCastVote(v);
                     }
-                    else{
-                        capturedImage = (ImageView) findViewById(R.id.capturedImage);
-                        capturedImage.setImageDrawable(null);
-
+                    else {
+                        countFc++;
                         TextView tv = (TextView) findViewById(R.id.facerecogWarning);
 
-                        final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
-                        fcCapture.setEnabled(true);
+                        if (countFc >= 3) {
+                            tv.setText("Face Recognition FAILED!");
+                            b.setText("Logout");
+                        } else {
+                            capturedImage = (ImageView) findViewById(R.id.capturedImage);
+                            capturedImage.setImageDrawable(null);
 
-                        if(countFc==1) {
-                            tv.setText("FAILED! You have 2 chances left");
-                        }
-                        else if(countFc==2){
-                            tv.setText("FAILED! You have 1 chance left");
-                        }
+                            final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
+                            fcCapture.setEnabled(true);
+                            b.setEnabled(false);
 
+                            if (countFc == 1) {
+                                tv.setText("FAILED! You have 2 chances left");
+                            } else if (countFc == 2) {
+                                tv.setText("FAILED! You have 1 chance left");
+                            }
+
+                        }
                     }
                 }
             }
@@ -91,17 +94,22 @@ public class FacialRecognition extends AppCompatActivity {
         capturedImage = (ImageView) findViewById(R.id.capturedImage);
         TextView tv = (TextView) findViewById(R.id.facerecogWarning);
         final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
+        final Button fcSubmit = (Button) findViewById(R.id.faceRecSubmitButton);
         if(capturedImage.getDrawable() != null)
         {
             fcCapture.setEnabled(false);
             tv.setText("Image has been captured");
+            fcSubmit.setEnabled(true);
+        }
+        else{
+            fcSubmit.setEnabled(false);
         }
     }
 
 
     public void goToCastVote(View v){
-        Intent i=new Intent(getApplicationContext(),CastVote.class);
-        i.putExtra("CANDIDATES",candidatesStr);
+        Intent i = new Intent(getApplicationContext(), CastVote.class);
+        i.putExtra("CANDIDATES", candidatesStr);
         i.putExtra("Voter", voter);
         startActivity(i);
         finish();

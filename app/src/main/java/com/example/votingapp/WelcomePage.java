@@ -61,8 +61,8 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
-        castV.setVisibility(View.INVISIBLE);
-        verifyV.setVisibility(View.INVISIBLE);
+        castV.setEnabled(false);
+        verifyV.setEnabled(false);
 
         Intent g= getIntent();
 
@@ -185,11 +185,11 @@ public class WelcomePage extends AppCompatActivity {
             }
             if(!voter.getAlreadyVoted()) {
                 Toast.makeText(WelcomePage.this, "Not voted", Toast.LENGTH_SHORT).show();
-                castV.setVisibility(View.VISIBLE);
+                castV.setEnabled(true);
             }
             else{
                 Toast.makeText(WelcomePage.this, "Already voted", Toast.LENGTH_SHORT).show();
-                verifyV.setVisibility(View.VISIBLE);
+                verifyV.setEnabled(true);
             }
         }
     }
