@@ -52,6 +52,7 @@ class Server{
                 String queryType=clientQuery[0];
                 String EPIC =clientQuery[1];
                 String pass=clientQuery[2];
+                String CID = null, PartyID = null;
                 int type=Integer.parseInt(queryType);
                 in.close();
                 s.close();
@@ -119,7 +120,7 @@ class Server{
                     con = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/electiondb", "root", "");
                     stmt=con.createStatement();
-                    String CID=EPIC;
+                    CID=EPIC;
                     rs=stmt.executeQuery("select * from candidate where CID = '"+CID+"'");
                     
                     while(rs.next())
@@ -130,7 +131,42 @@ class Server{
                     stmt.close();
                     con.close();
                     break;
+                
+                case 4: // verify Vote
+                    con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    stmt=con.createStatement();
+                    
+                    rs=stmt.executeQuery("select PARTYID from vote where EPIC = '"+EPIC+"'");
 
+                    PartyID = null;
+                    if(rs.next())
+                    {
+                        PartyID = rs.getString(1);
+                    }
+
+                    rs.close();
+                    rs=stmt.executeQuery("select CID from voter where EPIC = '"+EPIC+"'");
+
+                    if(rs.next())
+                    {
+                        CID = rs.getString(1);
+                    }
+
+                    rs.close();
+                    rs=stmt.executeQuery("select NAME from candidate where CID = '"+CID+"' and PARTYID = '"+PartyID+"'");
+                    
+                    if(rs.next())
+                    {
+                        sendString+=rs.getString(1)+"$"+PartyID;
+                    }
+                    if(sendString.equals(""))
+                    {
+                        sendString = "INVALID";
+                    }
+                    rs.close();
+                    stmt.close();
+                    con.close();
                 } //switch
 
                 s = server.accept();
@@ -142,11 +178,9 @@ class Server{
 
                 server.close();
                 s.close();
-
             } catch (Exception e) {
                 System.out.println(e);
             }
-
         }
     }
 }

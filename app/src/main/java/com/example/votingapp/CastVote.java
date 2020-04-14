@@ -1,5 +1,6 @@
 package com.example.votingapp;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -39,22 +40,7 @@ public class CastVote extends AppCompatActivity {
         confirmButton = (Button) findViewById(R.id.confirmVoteButton);
         radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
 
-//      fetch Candidates from
-//        Candidate c0 = new Candidate(new String("Abhishek"), 0);
-//        Candidate c1 = new Candidate(new String("Ranajit"), 1);
-//        Candidate c2 = new Candidate(new String("Swapnil"), 2);
-//        Candidate c3 = new Candidate(new String("Ankur"), 3);
-//        Candidate c4 = new Candidate(new String("Arnab"), 4);
-//        Candidate c5 = new Candidate(new String("Arunava"), 5);
-//        list = new CandidateList(c0);
-//        list.push(c1);
-//        list.push(c2);
-//        list.push(c3);
-//        list.push(c4);
-//        list.push(c5);
         populate(candidateDetails);
-//        populate();
-
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +88,6 @@ public class CastVote extends AppCompatActivity {
         {
             list.push(new Candidate(candStringArray[i], Integer.parseInt(candStringArray[i+1])));
         }
-
         while( list.top() != null ) {
             RadioButton rd = new RadioButton(this);
             rd.setLayoutParams(new LinearLayout.LayoutParams(
@@ -116,19 +101,24 @@ public class CastVote extends AppCompatActivity {
             Drawable d = getResources().getDrawable(resId);
             rd.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 
+            rd.setTag(list.top().getPartyID());
+
             radioG.addView(rd);
             list.pop();
         }
     }
 
     public void openDiag(){
-        cdtDialog diag = new cdtDialog();
+        CdtDialog diag = new CdtDialog();
         diag.show(getSupportFragmentManager(),"Timer");
-
     }
 
     public void goToWriteToChip(){
+        RadioButton rd = findViewById(radioG.getCheckedRadioButtonId());
         Intent i=new Intent(getApplicationContext(),WriteToChip.class);
+        i.putExtra("Voter", voter);
+        int tag = (int) rd.getTag();
+        i.putExtra("PARTYID", tag);
         startActivity(i);
         finish();
     }
