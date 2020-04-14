@@ -132,7 +132,7 @@ class Server{
                     con.close();
                     break;
                 
-                case 4:
+                case 4: // verify Vote
                     con = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/electiondb", "root", "");
                     stmt=con.createStatement();
@@ -159,6 +159,10 @@ class Server{
                     if(rs.next())
                     {
                         sendString+=rs.getString(1)+"$"+PartyID;
+                    }
+                    if(sendString.equals(""))
+                    {
+                        sendString = "INVALID";
                     }
                     rs.close();
                     stmt.close();
