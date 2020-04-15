@@ -134,19 +134,17 @@ public class WriteToChip extends AppCompatActivity {
     }
 
     private boolean externalMemoryAvailable() {
-//        if (Environment.isExternalStorageRemovable()) {
-//            //device support sd card. We need to check sd card availability.
-//            String state = Environment.getExternalStorageState();
-//            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
-//                    Environment.MEDIA_MOUNTED_READ_ONLY);
-//        }
-//        else {
-//            //device not support sd card.
-//            return false;
-//        }
-        return true;
+        if (Environment.isExternalStorageRemovable()) {
+            //device support sd card. We need to check sd card availability.
+            String state = Environment.getExternalStorageState();
+            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
+                    Environment.MEDIA_MOUNTED_READ_ONLY);
+        }
+        else {
+            //device not support sd card.
+            return false;
+        }
     }
-//
 
 
 
@@ -224,8 +222,8 @@ public class WriteToChip extends AppCompatActivity {
         Intent in = new Intent(this,UploadToServer.class);
         in.putExtra("Voter",voter);
         in.putExtra("PARTYID", partyID);
-        //startActivity(in);
-       // finish();
+        startActivity(in);
+        finish();
     }
 
 

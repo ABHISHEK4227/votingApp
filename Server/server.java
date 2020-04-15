@@ -1,6 +1,7 @@
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 
 class Server{
     private Socket s=null;
@@ -36,9 +37,9 @@ class Server{
 
     public void listen()
     {
+        boolean secondTry=false;
         while(true) {
             try {
-                
                 sendString="";
 
                 server = new ServerSocket(port);
@@ -56,6 +57,9 @@ class Server{
                 int type=Integer.parseInt(queryType);
                 in.close();
                 s.close();
+
+
+
                 ResultSet rs=null;
 
                 switch(type){
@@ -167,6 +171,36 @@ class Server{
                     rs.close();
                     stmt.close();
                     con.close();
+                    break;
+                
+                case 5:
+                    if( secondTry )
+                    {
+                        sendString = "VALID";
+                        secondTry = false;
+                    }
+                    else{
+                        sendString = "INVALID";
+                        secondTry = true;
+                    }
+                    break;
+
+                case 6: //vote added
+                    con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    stmt=con.createStatement();
+                    int partyID= Integer.parseInt(pass);
+                    try{			
+                        stmt.executeUpdate("INSERT INTO vote ( EPIC , PARTYID ) VALUES ( '"+EPIC+"' , '"+partyID+"' )");
+                        stmt.executeUpdate("UPDATE voter SET VOTED = '"+1+"' WHERE EPIC = '"+EPIC+"' " );
+                    
+                    }
+                    catch(Exception e){
+                        sendString="INVALID";
+                    }
+                    stmt.close();
+                    con.close();
+                    break;
                 } //switch
 
                 s = server.accept();

@@ -45,12 +45,13 @@ public class UploadToServer extends AppCompatActivity {
         nextB.setEnabled(false);
 
         UploadToServer.ElectionDB ob = new UploadToServer.ElectionDB();
-        ob.execute(voter.getEpic_no()+"$"+partyID);
+        ob.execute(voter.getEpic_no()+" "+partyID);
     }
 
 
     void updatedUIOnSuccess(){
         upDetails.setText(success);
+        progressB.setVisibility(View.INVISIBLE);
         if(flag == 0)
         {
             nextB.setText("Log Out");
@@ -123,11 +124,12 @@ public class UploadToServer extends AppCompatActivity {
                     }
                 }
             });
-            updatedUIOnSuccess();
+            if(flag == 1)
+                updatedUIOnSuccess();
         }
     }
-//    @Override
-//    public void onBackPressed() {
-//        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
+    }
 }

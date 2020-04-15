@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class CastVote extends AppCompatActivity {
     private Voter voter;
-    Button confirmButton;
+    private Button confirmButton;
     private RadioGroup radioG;
     private TextView timeT;
     boolean timeUp = false;
@@ -37,8 +37,8 @@ public class CastVote extends AppCompatActivity {
         String candidateDetails = g.getStringExtra("CANDIDATES");
         voter = (Voter) g.getSerializableExtra("Voter");
         list = null;
-        confirmButton = (Button) findViewById(R.id.confirmVoteButton);
-        radioG = (RadioGroup) findViewById(R.id.radiogroup_vote);
+        confirmButton = findViewById(R.id.confirmVoteButton);
+        radioG = findViewById(R.id.radiogroup_vote);
 
         populate(candidateDetails);
 
@@ -49,6 +49,12 @@ public class CastVote extends AppCompatActivity {
                     finish();
                 }
                 else{
+                    int selected = radioG.getCheckedRadioButtonId();
+                    if(selected == -1)
+                    {
+                        Toast.makeText(CastVote.this, "Select one first!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     cdTimer.cancel();
                     goToWriteToChip();
                 }
@@ -67,6 +73,8 @@ public class CastVote extends AppCompatActivity {
             public void onFinish() {
                 openDiag();
                 confirmButton.setText("Logout");
+                timeT.setText("Time's Up!");
+                radioG.setVisibility(View.INVISIBLE);
                 timeUp = true;
             }
         };
@@ -114,7 +122,8 @@ public class CastVote extends AppCompatActivity {
     }
 
     public void goToWriteToChip(){
-        RadioButton rd = findViewById(radioG.getCheckedRadioButtonId());
+        int selected = radioG.getCheckedRadioButtonId();
+        RadioButton rd = findViewById(selected);
         Intent i=new Intent(getApplicationContext(),WriteToChip.class);
         i.putExtra("Voter", voter);
         int tag = (int) rd.getTag();
@@ -125,6 +134,6 @@ public class CastVote extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(CastVote.this, "Not Allowed", Toast.LENGTH_LONG).show();
+        Toast.makeText(CastVote.this, "Not Allowed", Toast.LENGTH_SHORT).show();
     }
 }
