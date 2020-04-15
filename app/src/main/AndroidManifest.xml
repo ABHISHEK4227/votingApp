@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UploadToServer"></activity>
-        <activity android:name=".ConfirmVote" />
         <activity android:name=".FacialRecognition" />
         <activity android:name=".VerifyVote" />
         <activity android:name=".WriteToChip" />

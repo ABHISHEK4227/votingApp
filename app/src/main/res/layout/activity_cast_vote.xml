@@ -19,24 +19,26 @@
         android:layout_height="wrap_content"
         android:text="@string/cast_vote"
         android:textSize="36sp"
+        android:background="@android:color/background_light"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toTopOf="@id/timeText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:text="Time"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/radiogroup_vote"
-        app:layout_constraintTop_toBottomOf="@+id/castVoteTitle"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="Time"
+            android:textColor="#F44336"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/radiogroup_vote"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/castVoteTitle" />
 
 
     <RadioGroup

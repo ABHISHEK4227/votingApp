@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">votingApp</string>
+    <string name="app_name">Voting App</string>
     <string name="title_activity_welcome_page">welcomePage</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -23,4 +23,5 @@
     <string name="capture">Capture</string>
     <string name="todo">TODO</string>
     <string name="confirm_vote">Confirm Vote</string>
+    <string name="contact_election_commision"><a href="http://103.127.146.165/wiki/index.php?title=Codex:Main">CONTACT ELECTION COMMISSION</a></string>
 </resources>
