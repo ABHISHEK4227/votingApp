@@ -45,7 +45,7 @@ public class UploadToServer extends AppCompatActivity {
         nextB.setEnabled(false);
 
         UploadToServer.ElectionDB ob = new UploadToServer.ElectionDB();
-        ob.execute(voter.getEpic_no()+"$"+partyID);
+        ob.execute(voter.getEpic_no()+" "+partyID);
     }
 
 
@@ -123,6 +123,7 @@ public class UploadToServer extends AppCompatActivity {
                     }
                 }
             });
+            if(flag==1)
             updatedUIOnSuccess();
         }
     }
