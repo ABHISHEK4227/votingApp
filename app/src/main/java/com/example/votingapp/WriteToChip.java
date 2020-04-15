@@ -25,7 +25,7 @@ public class WriteToChip extends AppCompatActivity {
         partyID = g.getIntExtra("PARTYID",9);
 
         //DIRECTLY GOING TO UPLOADTOSERVER
-//        goToUploadToServer();
+          goToUploadToServer();
 
         // Populate this string with the vote you want to save
         String vote="Arnab";
@@ -42,7 +42,7 @@ public class WriteToChip extends AppCompatActivity {
                 f.close();
             }
             else {
-                System.out.println("Didn't work!");
+                Toast.makeText(this,"Write To Chip Failed",Toast.LENGTH_LONG).show();
             }
 
         }catch(Exception e)

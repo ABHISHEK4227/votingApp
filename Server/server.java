@@ -56,6 +56,9 @@ class Server{
                 int type=Integer.parseInt(queryType);
                 in.close();
                 s.close();
+
+
+
                 ResultSet rs=null;
 
                 switch(type){
@@ -167,6 +170,32 @@ class Server{
                     rs.close();
                     stmt.close();
                     con.close();
+		    break;
+
+
+
+		case 6:
+			con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    	stmt=con.createStatement();
+                    	int partyID= Integer.parseInt(pass);
+			try{			
+                    	 stmt.executeUpdate("INSERT INTO vote ( EPIC , PARTYID ) VALUES ( '"+EPIC+"' , '"+partyID+"' )");
+			 stmt.executeUpdate("UPDATE voter SET VOTED = '"+1+"' WHERE EPIC = '"+EPIC+"' " );
+			
+			}
+			catch(Exception e){
+			
+
+			sendString="INVALID";
+
+			
+			}	
+
+
+
+
+
                 } //switch
 
                 s = server.accept();

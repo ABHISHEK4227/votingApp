@@ -17,12 +17,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/welcome"
+            android:textColor="@android:color/holo_orange_dark"
             android:textSize="36sp"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name"
@@ -67,7 +67,9 @@
             android:id="@+id/buttonCastVote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
             android:text="@string/cast_vote"
+            android:textColor="@color/cardview_light_background"
             app:layout_constraintBottom_toTopOf="@+id/buttonVerifyVote"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -77,10 +79,12 @@
             android:id="@+id/buttonVerifyVote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
             android:text="@string/verify_vote"
+            android:textColor="@color/cardview_light_background"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/buttonCastVote" />
 
 
