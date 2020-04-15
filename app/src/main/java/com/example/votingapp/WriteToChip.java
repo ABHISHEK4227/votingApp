@@ -258,7 +258,7 @@ public class WriteToChip extends AppCompatActivity {
         Intent in = new Intent(this,UploadToServer.class);
         in.putExtra("Voter",voter);
         in.putExtra("PARTYID", partyID);
-//        startActivity(in);
+        startActivity(in);
         finish();
     }
 
