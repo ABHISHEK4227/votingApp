@@ -26,7 +26,7 @@
         android:paddingTop="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp"
-        android:text="writing to chip in progress , please do not remove the chip "
+        android:text="Open Chip, Select External Storage And then select SavedVote "
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

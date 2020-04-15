@@ -6,6 +6,8 @@ import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,14 +15,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -130,75 +134,86 @@ public class WriteToChip extends AppCompatActivity {
     }
 
     private boolean externalMemoryAvailable() {
-        if (Environment.isExternalStorageRemovable()) {
-            //device support sd card. We need to check sd card availability.
-            String state = Environment.getExternalStorageState();
-            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
-                    Environment.MEDIA_MOUNTED_READ_ONLY);
-        }
-        else {
-            //device not support sd card.
-            return false;
-        }
+//        if (Environment.isExternalStorageRemovable()) {
+//            //device support sd card. We need to check sd card availability.
+//            String state = Environment.getExternalStorageState();
+//            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
+//                    Environment.MEDIA_MOUNTED_READ_ONLY);
+//        }
+//        else {
+//            //device not support sd card.
+//            return false;
+//        }
+        return true;
     }
 //
-//    String secStore = System.getenv("SECONDARY_STORAGE");
-//    File f_secs = new File(secStore);
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void writeChipN(String str){
-//        File dir1 = new File(Environment.getExternalStorageDirectory(), "savedVote.txt");
-//        System.out.println(dir1);
-//        try{
-//            String secStore = System.getenv("EXTERNAL_STORAGE");
-//            System.out.println(secStore);
-//            File dir = new File(secStore);
-//
-//            FileOutputStream fos = new FileOutputStream(dir);
-//            fos.write(str.getBytes());
-//            fos.close();
-//            Toast.makeText(this,"Saved in Chip Successfully", Toast.LENGTH_SHORT).show();
-//        }
-//        catch (IOException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, 42);
-        //return true;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, 5);
+        //createFile(null);
     }
+
+//    public void openDirectory(Uri uriToLoad) {
+//        // Choose a directory using the system's file picker.
+//        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//
+//        // Provide read access to files and sub-directories in the user-selected
+//        // directory.
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//
+//        // Optionally, specify a URI for the directory that should be opened in
+//        // the system file picker when it loads.
+//        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uriToLoad);
+//
+//        startActivityForResult(intent, 42);
+//        System.out.println("ABCD");
+//    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (resultCode == RESULT_OK) {
-            Uri treeUri = resultData.getData();
-            assert treeUri != null;
-            DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        if (requestCode == 5
+                && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that
+            // the user selected.
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
 
-            // List all existing files inside picked directory
-            for (DocumentFile file : pickedDir.listFiles()) {
-                Log.d("TAGG", "Found file " + file.getName() + " with size " + file.length());
-            }
+                System.out.println(uri.toString() + " uriString");
+                System.out.println(uri.getPath() + " path");
+                // Perform operations on the document using its URI.
+                alterDocument(uri);
 
-            // Create a new file and write into it
-            try {
-                assert pickedDir != null;
-                DocumentFile newFile = pickedDir.createFile("text/plain", "My Novel");
-                OutputStream out = getContentResolver().openOutputStream(newFile.getUri());
-                out.write("A long time ago...".getBytes());
-                out.close();
-                writeSDCardFlag=true;
-                flag = true;
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-                writeSDCardFlag=false;
-                flag = false;
             }
         }
     }
 
+     private void alterDocument(Uri uri) {
+                    try {
+                        Context context=null;
+                        ParcelFileDescriptor pfd = this.getContentResolver().openFileDescriptor(uri, "w");
+                        FileOutputStream fileOutputStream =
+                                new FileOutputStream(pfd.getFileDescriptor());
+                        fileOutputStream.write(("Vote saved at " + System.currentTimeMillis() + "\n" + str).getBytes());
+                        // Let the document provider know you're done by closing the stream.
+                        fileOutputStream.close();
+                        pfd.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+     }
 
     boolean checkPermission(){
         int check = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE );
@@ -209,7 +224,7 @@ public class WriteToChip extends AppCompatActivity {
         Intent in = new Intent(this,UploadToServer.class);
         in.putExtra("Voter",voter);
         in.putExtra("PARTYID", partyID);
-        startActivity(in);
+        //startActivity(in);
        // finish();
     }
 
