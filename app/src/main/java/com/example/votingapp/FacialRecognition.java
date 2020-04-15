@@ -151,9 +151,9 @@ public class FacialRecognition extends AppCompatActivity {
                 String l = d_in.readUTF();
 
                 if(l.equals("INVALID"))
-                {
                     successFlag = false;
-                }
+                else
+                    successFlag = true;
 
                 in.close();
                 s.close();
@@ -189,6 +189,7 @@ public class FacialRecognition extends AppCompatActivity {
                     } else {
                         capturedImage = (ImageView) findViewById(R.id.capturedImage);
                         capturedImage.setImageDrawable(null);
+                        capImage = "NA";
 
                         final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
                         fcCapture.setEnabled(true);
