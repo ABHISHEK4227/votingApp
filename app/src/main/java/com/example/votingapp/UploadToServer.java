@@ -51,6 +51,7 @@ public class UploadToServer extends AppCompatActivity {
 
     void updatedUIOnSuccess(){
         upDetails.setText(success);
+        progressB.setVisibility(View.INVISIBLE);
         if(flag == 0)
         {
             nextB.setText("Log Out");
@@ -123,12 +124,12 @@ public class UploadToServer extends AppCompatActivity {
                     }
                 }
             });
-            if(flag==1)
-            updatedUIOnSuccess();
+            if(flag == 1)
+                updatedUIOnSuccess();
         }
     }
-//    @Override
-//    public void onBackPressed() {
-//        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(UploadToServer.this, "Not Allowed", Toast.LENGTH_SHORT).show();
+    }
 }

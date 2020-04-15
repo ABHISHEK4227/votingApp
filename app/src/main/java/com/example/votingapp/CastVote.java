@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class CastVote extends AppCompatActivity {
     private Voter voter;
-    Button confirmButton;
+    private Button confirmButton;
     private RadioGroup radioG;
     private TextView timeT;
     boolean timeUp = false;
@@ -73,6 +73,8 @@ public class CastVote extends AppCompatActivity {
             public void onFinish() {
                 openDiag();
                 confirmButton.setText("Logout");
+                timeT.setText("Time's Up!");
+                radioG.setVisibility(View.INVISIBLE);
                 timeUp = true;
             }
         };
