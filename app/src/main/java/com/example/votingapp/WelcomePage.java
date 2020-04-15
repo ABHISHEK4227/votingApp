@@ -85,7 +85,7 @@ public class WelcomePage extends AppCompatActivity {
 //        Log.i("download1", voter.getEpic_no());
 
         // check with electionDB abhishek
-        ElectionDB ob =new ElectionDB();
+        WelcomePage.ElectionDB ob =new WelcomePage.ElectionDB();
         ob.execute(voter.getEpic_no()+" "+Pass);
     }
     boolean doubleBackToExitPressedOnce = false;
