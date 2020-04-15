@@ -37,9 +37,9 @@ class Server{
 
     public void listen()
     {
+        boolean secondTry=false;
         while(true) {
             try {
-                
                 sendString="";
 
                 server = new ServerSocket(port);
@@ -174,14 +174,14 @@ class Server{
                     break;
                 
                 case 5:
-                    Random rand = new Random();
-                    int r = rand.nextInt(3);
-                    if( r == 0 )
+                    if( secondTry )
                     {
-                        sendString = "INVALID";
+                        sendString = "VALID";
+                        secondTry = false;
                     }
                     else{
-                        sendString = "VALID";
+                        sendString = "INVALID";
+                        secondTry = true;
                     }
                     break;
 
