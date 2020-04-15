@@ -1,6 +1,7 @@
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 
 class Server{
     private Socket s=null;
@@ -170,32 +171,36 @@ class Server{
                     rs.close();
                     stmt.close();
                     con.close();
-		    break;
+                    break;
+                
+                case 5:
+                    Random rand = new Random();
+                    int r = rand.nextInt(3);
+                    if( r == 0 )
+                    {
+                        sendString = "INVALID";
+                    }
+                    else{
+                        sendString = "VALID";
+                    }
+                    break;
 
-
-
-		case 6:
-			con = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/electiondb", "root", "");
-                    	stmt=con.createStatement();
-                    	int partyID= Integer.parseInt(pass);
-			try{			
-                    	 stmt.executeUpdate("INSERT INTO vote ( EPIC , PARTYID ) VALUES ( '"+EPIC+"' , '"+partyID+"' )");
-			 stmt.executeUpdate("UPDATE voter SET VOTED = '"+1+"' WHERE EPIC = '"+EPIC+"' " );
-			
-			}
-			catch(Exception e){
-			
-
-			sendString="INVALID";
-
-			
-			}	
-
-
-
-
-
+                case 6: //vote added
+                    con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/electiondb", "root", "");
+                    stmt=con.createStatement();
+                    int partyID= Integer.parseInt(pass);
+                    try{			
+                        stmt.executeUpdate("INSERT INTO vote ( EPIC , PARTYID ) VALUES ( '"+EPIC+"' , '"+partyID+"' )");
+                        stmt.executeUpdate("UPDATE voter SET VOTED = '"+1+"' WHERE EPIC = '"+EPIC+"' " );
+                    
+                    }
+                    catch(Exception e){
+                        sendString="INVALID";
+                    }
+                    stmt.close();
+                    con.close();
+                    break;
                 } //switch
 
                 s = server.accept();
