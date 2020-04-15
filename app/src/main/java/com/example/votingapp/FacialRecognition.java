@@ -62,7 +62,7 @@ public class FacialRecognition extends AppCompatActivity {
             public void onClick(View v) {
                 if(logout)
                     finish();
-                else if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
+                if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
                 {
                     FacialRecognition.VoterDB ob = new FacialRecognition.VoterDB();
                     ob.execute(voter.getEpic_no()+" "+capImage);
