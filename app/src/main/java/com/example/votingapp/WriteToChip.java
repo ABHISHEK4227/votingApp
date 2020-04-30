@@ -28,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class WriteToChip extends AppCompatActivity {
     private TextView textWarning;
@@ -37,11 +39,20 @@ public class WriteToChip extends AppCompatActivity {
     private ProgressBar pBar;
     private Voter voter;
     private int partyID;
-    public boolean writeSDCardFlag = true;
+    private boolean writeSDCardFlag = false;
+    private int countClick = 0;
+    private Calendar calendar;
+    private  SimpleDateFormat simpleDateFormat;
+    private String uriPath = "/document/3F5C-09FB:savedVote.txt";
+    private String filePath = "/storage/3F5C-09FB/savedVote.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_to_chip);
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("EEEE , dd-MMM-yyyy hh:mm:ss a");
+
+
 
         textWarning = (TextView) findViewById(R.id.textView18);
         btnExit = (Button) findViewById(R.id.buttonExit);
@@ -60,6 +71,57 @@ public class WriteToChip extends AppCompatActivity {
         }
         str = voter.getEpic_no() + "$" + partyID;
 
+        try {
+            if(!externalMemoryAvailable()){
+                textWarning.setText("Chip is not Inserted");
+                textWarning.setTextColor(Color.RED);
+                btnExit.setText("Logout");
+                pBar.setVisibility(View.INVISIBLE);
+                flag = false;
+            }
+            else if(!checkPermission()){
+                textWarning.setText("Chip is Inaccessible");
+                textWarning.setTextColor(Color.RED);
+                btnExit.setText("Logout");
+                pBar.setVisibility(View.INVISIBLE);
+                flag = false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                if(!flag) {
+                    finish();
+                }
+                else{
+                    countClick++;
+                    if(countClick == 1) {
+                        writeChipN(str);
+                    }
+                    else if(countClick == 2){
+                        if(writeSDCardFlag) {
+                            goToUploadToServer();
+                        }
+                        else{
+                            finish();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if(countClick == 2)
+//        {
+//
+//        }
         //DIRECTLY GOING TO UPLOADTOSERVER
 //        goToUploadToServer();
 
@@ -87,69 +149,22 @@ public class WriteToChip extends AppCompatActivity {
 //        }
 
 
-
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                if(!flag) {
-                    finish();
-                }
-                else{
-                    writeChipN(str);
-                    if(writeSDCardFlag==true) {
-                        goToUploadToServer();
-                    }
-                }
-            }
-        });
-
-        if(!externalMemoryAvailable()){
-            textWarning.setText("Chip is not Inserted");
-            textWarning.setTextColor(Color.RED);
-            btnExit.setText("Logout");
-            pBar.setVisibility(View.INVISIBLE);
-            flag = false;
-        }
-        else if(!checkPermission()){
-            textWarning.setText("Chip is Inaccessible");
-            textWarning.setTextColor(Color.RED);
-            btnExit.setText("Logout");
-            pBar.setVisibility(View.INVISIBLE);
-            flag = false;
-        }
 //        else{
 //            writeChip(str);
 //            if(writeSDCardFlag==true){
 //                goToUploadToServer();
 //            }
-        else if(!writeSDCardFlag){
-            textWarning.setText("WriteToChip Failed");
-            textWarning.setTextColor(Color.RED);
-            btnExit.setText("Logout");
-            pBar.setVisibility(View.INVISIBLE);
-            flag = false;
-        }
 
     }
 
-    private boolean externalMemoryAvailable() {
-        if (Environment.isExternalStorageRemovable()) {
-            //device support sd card. We need to check sd card availability.
-            String state = Environment.getExternalStorageState();
-            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
-                    Environment.MEDIA_MOUNTED_READ_ONLY);
-        }
-        else {
-            //device not support sd card.
-            return false;
-        }
+    private boolean externalMemoryAvailable() throws IOException {
+        File file = new File(filePath);
+        return file.exists();
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void writeChipN(String str){
+        countClick--;
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         startActivityForResult(intent, 5);
@@ -173,8 +188,6 @@ public class WriteToChip extends AppCompatActivity {
 //        System.out.println("ABCD");
 //    }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode,
@@ -191,27 +204,50 @@ public class WriteToChip extends AppCompatActivity {
                 System.out.println(uri.getPath() + " path");
                 // Perform operations on the document using its URI.
                 alterDocument(uri);
-
             }
         }
     }
 
-     private void alterDocument(Uri uri) {
-                    try {
-                        Context context=null;
-                        ParcelFileDescriptor pfd = this.getContentResolver().openFileDescriptor(uri, "w");
-                        FileOutputStream fileOutputStream =
-                                new FileOutputStream(pfd.getFileDescriptor());
-                        fileOutputStream.write(("Vote saved at " + System.currentTimeMillis() + "\n" + str).getBytes());
-                        // Let the document provider know you're done by closing the stream.
-                        fileOutputStream.close();
-                        pfd.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-     }
+    private void alterDocument(Uri uri) {
+        countClick++;
+        try {
+            ParcelFileDescriptor pfd = this.getContentResolver().openFileDescriptor(uri, "w");
+            FileOutputStream fileOutputStream =
+                    new FileOutputStream(pfd.getFileDescriptor());
+            fileOutputStream.write(("Vote saved at, " + simpleDateFormat.format(calendar.getTime()) + "\n" + str).getBytes());
+            // Let the document provider know you're done by closing the stream.
+            fileOutputStream.close();
+            pfd.close();
+            if( uriPath.equals(uri.getPath()) ) {
+                writeSDCardFlag = true;
+                textWarning.setText("WriteToChip Successful");
+                textWarning.setTextColor(Color.RED);
+                btnExit.setText("Next");
+                pBar.setVisibility(View.INVISIBLE);
+            }
+            else {
+                textWarning.setText("Please select the correct file");
+                countClick--;
+                textWarning.setTextColor(Color.RED);
+            }
+
+        } catch (FileNotFoundException e) {
+            textWarning.setText("WriteToChip Failed");
+            textWarning.setTextColor(Color.RED);
+            btnExit.setText("Logout");
+            pBar.setVisibility(View.INVISIBLE);
+            flag = false;
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            textWarning.setText("WriteToChip Failed");
+            textWarning.setTextColor(Color.RED);
+            btnExit.setText("Logout");
+            pBar.setVisibility(View.INVISIBLE);
+            flag = false;
+            e.printStackTrace();
+        }
+    }
 
     boolean checkPermission(){
         int check = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE );

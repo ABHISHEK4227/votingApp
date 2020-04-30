@@ -156,14 +156,15 @@
             app:layout_constraintTop_toBottomOf="@id/voterDetailsConfirm"
             app:layout_constraintVertical_bias="1" />
 
-        <Button
+        <TextView
             android:id="@+id/buttonContactECI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@android:color/holo_blue_dark"
-            android:text="CONTACT ELECTION COMMISION"
-            android:textColor="@color/cardview_light_background"
+            android:background="@android:color/holo_red_light"
+            android:padding="10dp"
+            android:text="@string/contact_election_commision"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

@@ -63,7 +63,7 @@ public class CastVote extends AppCompatActivity {
 
 
         timeT = (TextView) findViewById(R.id.timeText);
-        cdTimer = new CountDownTimer(10000,1000) {
+        cdTimer = new CountDownTimer(20000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeT.setText("Time left : " + millisUntilFinished/1000 + " sec");
