@@ -1,0 +1,4 @@
+1. Login Button should be pressed only if server sends the acknowledgement
+2. FacialRecognition logout sends again the image to the server
+3. Button needs to be changed colour when disabled
+4. Proper progress Bar needed for all asyncTask
