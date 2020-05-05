@@ -1,63 +1,43 @@
-package com.example.votingapp;
+package com.votingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.votingapp.entities.Voter;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class VerifyVote extends AppCompatActivity {
+public class VerifyVoteManager  {
     private Voter voter = null;
     private TextView candName = null;
     private ImageView imageView = null;
     private Button logout = null;
+    private Context context=null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        loadActivity();
+    VerifyVoteManager(Context context,Voter voter){
+        this.context=context;
+        this.voter=voter;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        logout = (Button) findViewById(R.id.buttonUnknown);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    void loadActivity(){
-        setContentView(R.layout.activity_verify_vote);
-        Intent g = getIntent();
-        voter = (Voter) g.getSerializableExtra("Voter");
-
-        ((TextView)findViewById(R.id.vv_epic)).setText(voter.getEpic_no());
-
-        candName = (TextView) findViewById(R.id.candName);
-        imageView = (ImageView) findViewById(R.id.imageView);
+    public void  startManager(){
+        candName = (TextView)((Activity)context).findViewById(R.id.candName);
+        imageView = (ImageView)((Activity)context).findViewById(R.id.imageView);
 
         candName.setText("LOADING...");
         imageView.setVisibility(View.INVISIBLE);
-
-        VerifyVote.ElectionDB ob = new VerifyVote.ElectionDB();
+        ElectionDB ob = new ElectionDB();
         ob.execute(voter.getEpic_no()+" "+voter.getPassword());
     }
 
@@ -106,40 +86,15 @@ public class VerifyVote extends AppCompatActivity {
 
             if(!details[0].equals("INVALID")) {
                 candName.setText(details[0]);
-                int resId = getResources().getIdentifier("id"+details[1],"drawable", getPackageName());
-                Drawable d = getResources().getDrawable(resId);
+                int resId = context.getResources().getIdentifier("id"+details[1],"drawable", context.getPackageName());
+                Drawable d = context.getResources().getDrawable(resId);
                 imageView.setImageDrawable(d);
                 imageView.setVisibility(View.VISIBLE);
             }
             else{
-                Toast.makeText(VerifyVote.this, "INVALID", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(((Activity)context), "INVALID", Toast.LENGTH_SHORT).show();
+                ((Activity)(context)).finish();
             }
         }
     }
-
-
-    boolean doubleBackToExitPressedOnce = false;
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-//            Intent i = new Intent(this,MainActivity.class);
-//            i.putExtra("exit", "1");
-//            startActivity(i);
-            finish();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to logout", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
-
 }

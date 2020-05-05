@@ -1,4 +1,4 @@
-package com.example.votingapp;
+package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
