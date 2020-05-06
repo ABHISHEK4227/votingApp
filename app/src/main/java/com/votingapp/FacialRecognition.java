@@ -1,4 +1,4 @@
-package com.example.votingapp;
+package com.votingapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.votingapp.entities.Voter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -211,9 +213,6 @@ public class FacialRecognition extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-//            Intent i = new Intent(this,MainActivity.class);
-//            i.putExtra("exit", "1");
-//            startActivity(i);
             finish();
             return;
         }

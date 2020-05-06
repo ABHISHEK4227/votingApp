@@ -1,28 +1,23 @@
-package com.example.votingapp;
+package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+
 import android.os.Handler;
+
+import com.votingapp.entities.Voter;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -78,7 +73,8 @@ public class WelcomePage extends AppCompatActivity {
         //EPIC NAME FATHER NAME  DOB  ADDR  SEX  CID  PASS
         String details[]=voterDetails.split("\\$");
 
-        voter = new Voter(details[0], details[1], details[2], details[3], details[4], details[5], details[6], Pass);
+        voter = new Voter();
+        voter.setVoter(details[0], details[1], details[2], details[3], details[4], details[5], details[6], Pass);
 
         updateUI(voter.getEpic_no(), voter.getName());
 
