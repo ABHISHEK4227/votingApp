@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
+
 public class VerifyVote extends AppCompatActivity {
     private Voter voter = null;
     private TextView candName = null;
