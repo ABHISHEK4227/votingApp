@@ -3,7 +3,9 @@
     package="com.votingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,20 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UploadToServer"></activity>
-        <activity android:name=".FacialRecognition" />
-        <activity android:name=".VerifyVote" />
-        <activity android:name=".WriteToChip" />
-        <activity android:name=".CastVote" />
-        <activity android:name=".WelcomePage" />
-        <activity android:name=".VoterDetails" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".FingerPrintStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UploadToServer" />
+        <activity android:name=".FacialRecognition" />
+        <activity android:name=".VerifyVote" />
+        <activity android:name=".WriteToChip" />
+        <activity android:name=".CastVote" />
+        <activity android:name=".WelcomePage" />
+        <activity android:name=".VoterDetails" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

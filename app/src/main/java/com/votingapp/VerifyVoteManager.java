@@ -25,6 +25,8 @@ public class VerifyVoteManager  {
     private ImageView imageView = null;
     private Button logout = null;
     private Context context=null;
+    private TextView vtr_epic = null;
+    private String epic = null;
 
     VerifyVoteManager(Context context,Voter voter){
         this.context=context;
@@ -34,7 +36,8 @@ public class VerifyVoteManager  {
     public void  startManager(){
         candName = (TextView)((Activity)context).findViewById(R.id.candName);
         imageView = (ImageView)((Activity)context).findViewById(R.id.imageView);
-
+        vtr_epic = (TextView)((Activity)context).findViewById(R.id.vv_epic);
+        epic = voter.getEpic_no();
         candName.setText("LOADING...");
         imageView.setVisibility(View.INVISIBLE);
         ElectionDB ob = new ElectionDB();
@@ -90,6 +93,8 @@ public class VerifyVoteManager  {
                 Drawable d = context.getResources().getDrawable(resId);
                 imageView.setImageDrawable(d);
                 imageView.setVisibility(View.VISIBLE);
+                vtr_epic.setText(epic);
+
             }
             else{
                 Toast.makeText(((Activity)context), "INVALID", Toast.LENGTH_SHORT).show();

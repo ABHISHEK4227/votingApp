@@ -3,10 +3,12 @@ package com.votingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class WelcomePage extends AppCompatActivity {
     private Voter voter=null;
     Button verifyV = null;
     Button castV = null;
+    ProgressBar pBar2 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
+
+        pBar2 = (ProgressBar) findViewById(R.id.pBar2);
         castV.setEnabled(false);
         verifyV.setEnabled(false);
 
@@ -182,10 +187,16 @@ public class WelcomePage extends AppCompatActivity {
             if(!voter.getAlreadyVoted()) {
                 Toast.makeText(WelcomePage.this, "Not voted", Toast.LENGTH_SHORT).show();
                 castV.setEnabled(true);
+                pBar2.setVisibility(View.INVISIBLE);
+                castV.setBackgroundColor(0xFF0099CC);
+                castV.setTextColor(Color.WHITE);
             }
             else{
                 Toast.makeText(WelcomePage.this, "Already voted", Toast.LENGTH_SHORT).show();
                 verifyV.setEnabled(true);
+                pBar2.setVisibility(View.INVISIBLE);
+                verifyV.setBackgroundColor(0xFF0099CC);
+                verifyV.setTextColor(Color.WHITE);
             }
         }
     }
