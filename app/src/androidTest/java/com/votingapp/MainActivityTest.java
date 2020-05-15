@@ -39,10 +39,10 @@ public class MainActivityTest {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                e.setText("001");
+                e.setText("GDN0225185");
 
-                p.setText("123");
-                assertEquals("001",e.getText().toString());
+                p.setText("12345");
+                assertEquals("GDN0225185",e.getText().toString());
             }
         });
 
@@ -60,10 +60,10 @@ public class MainActivityTest {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                e.setText("002");
+                e.setText("ROR9914721");
 
                 p.setText("123");
-                assertEquals("002",e.getText().toString());
+                assertEquals("ROR9914721",e.getText().toString());
             }
         });
 
